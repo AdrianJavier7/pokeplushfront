@@ -1,3 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PokePlush</title>
+
+  <!-- Fonts desde Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Concert+One&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            pixel: ['"Pixelify Sans"', 'sans-serif'],
+            concert: ['"Concert One"', '"Concert Two"'],
+          },
+        },
+      },
+    };
+  </script>
+  <link href="https://cdn.jsdelivr.net/npm/flowbite@latest/dist/flowbite.min.css" rel="stylesheet" />
+</head>
 <body class="bg-white p-6 font-pixel">
 
 <!-- Tarjeta del producto con imagen a la izquierda -->
@@ -19,7 +43,15 @@
     <p class="text-yellow-500 mt-2 text-2xs font-concert">★★★★★ (123 reseñas)</p>
 
     <!-- Precio y carrito -->
-    <p class="text-black-600 text-2xl mt-2 font-concert">22€ <span class="text-red-500">🛒</span></p>
+    <div class="flex items-center gap-4 mt-2">
+      <p class="text-black text-2xl font-concert">22€</p>
+      <!-- Botón circular rojo con icono de carrito blanco -->
+      <button class="w-10 h-10 flex items-center justify-center rounded-full bg-red-500 shadow-md hover:bg-red-600">
+        <!-- Icono de carrito (SVG blanco) -->
+        <img src="../../assets/icons8-carro-de-la-compra-24.png" alt="Carrito" class="w-5 h-5" />
+      </button>
+    </div>
+
 
     <!-- Descripción con barras rojas -->
     <div class="mt-4 flex items-stretch bg-white shadow-lg rounded-md overflow-hidden border border-gray-300">
