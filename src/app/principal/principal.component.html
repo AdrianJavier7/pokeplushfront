@@ -8,6 +8,40 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-  <p>Página principal</p>
+<header>
+  <nav class="bg-brand text-white shadow-sm">
+    <div class="max-w-full mx-auto">
+      <div class="flex items-center h-[76px] px-6 md:px-12 relative">
+
+        <!-- LOGO (izquierda) -->
+        <div class="flex items-center flex-none">
+          <!-- reemplaza la ruta del src por tu logo real -->
+          <img src="assets/LogoPokemon2.png" alt="Logo" class="h-14 w-auto object-contain"/>
+        </div>
+
+        <!-- NAV CENTRADO -->
+        <div class="flex-1 flex justify-center">
+          <ul class="hidden md:flex items-center space-x-12 font-pixel text-white text-lg">
+            <li><a routerLink="/" class="hover:underline">Inicio</a></li>
+            <li><a routerLink="/pokedex" class="hover:underline">Pokedex</a></li>
+            <li><a routerLink="/ofertas" class="hover:underline">Ofertas</a></li>
+          </ul>
+        </div>
+
+        <!-- BOTONES DERECHA -->
+        <div class="flex-none flex items-center space-x-4">
+          <a routerLink="/login"
+             class="px-4 py-2 bg-white rounded-md text-brand font-medium shadow-sm hover:shadow transition text-sm">
+            Inicio Sesión
+          </a>
+          <a routerLink="/register"
+             class="px-4 py-2 bg-white rounded-md text-brand font-semibold shadow-sm hover:shadow transition text-sm">
+            Registrarse
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
 </body>
 </html>
