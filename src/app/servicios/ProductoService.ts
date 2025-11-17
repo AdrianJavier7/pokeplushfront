@@ -17,10 +17,10 @@ export class ProductoService {
     return this.http.get<Producto[]>(this.apiUrl, options);
   }
 
-  getProductosPorVariosIds(listaIds : number[]): Observable<Producto[]> {
-    const options = this.comun.autorizarPeticion();
-
-    return this.http.get<Producto[]>(this.apiUrl + 'obtenerPorVarios', options);
+  getProductosPorVariosIds(listaIds: number[]): Observable<Producto[]> {
+    const optionsFromComun = this.comun.autorizarPeticion() || {};
+    const options = { ...optionsFromComun, responseType: 'json' as const };
+    return this.http.post<Producto[]>(`${this.apiUrl}/obtenerPorVarios`, listaIds, options);
   }
 
   getProductoPorId(id: number): Observable<Producto>{
