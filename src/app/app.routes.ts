@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import {DetallesProducto} from './detalles-producto/detalles-producto';
 
 export const routes: Routes = [
   {
@@ -26,6 +25,13 @@ export const routes: Routes = [
   {
     path: 'productos/:id', component: DetallesProducto
 },
-{path: '**', redirectTo: 'productos'}
-
+{path: '**', redirectTo: 'productos'},
+  {
+    path: 'registro',
+    loadComponent: () => import('./registro/registro.component').then((m)=> m.RegistroComponent),
+  },
+  {
+    path: 'inicio-sesion',
+    loadComponent: () => import('./inicio-sesion/inicio-sesion.component').then((m)=> m.InicioSesionComponent),
+  }
 ];

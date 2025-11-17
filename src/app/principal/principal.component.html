@@ -8,7 +8,18 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-  <p>Página principal</p>
-<button [routerLink]="['/carrito']">hola</button>
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 gap-4">
+  <button
+    routerLink="/registro"
+    class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+    Ir a Registro
+  </button>
+
+  <button
+    routerLink="/inicio-sesion"
+    class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+    Ir a Inicio de Sesión
+  </button>
+</div>
 </body>
 </html>
