@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página Principal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/flowbite@2.2.1/dist/flowbite.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.2.1/dist/flowbite.min.js"></script>
+  <style>
+    body {
+      font-family: 'Pixelify Sans', sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav class="bg-red-600 shadow-sm w-full">
+    <div class=" mx-auto px-6 md:px-12">
+      <div class="flex items-center justify-between h-[76px]">
+
+        <!-- LOGO IZQUIERDA -->
+        <a href="/" class="flex items-center">
+          <img src="assets/LogoPokemon2.png" class="h-20 w-auto transition-transform duration-300 hover:rotate-6" />
+        </a>
+
+        <!-- BOTON HAMBURGUESA -->
+        <button data-collapse-toggle="navbar-menu" type="button"
+                class="inline-flex items-center p-2 text-white md:hidden hover:bg-red-700 focus:outline-none"
+                aria-controls="navbar-menu" aria-expanded="false">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+               xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+
+        <!-- ENLACES -->
+        <div class="hidden md:flex items-center space-x-6 text-white text-base font-semibold">
+          <a href="/" class="hover:underline">Inicio</a>
+          <a href="/pokedex" class="hover:underline">Pokedex</a>
+          <a href="/ofertas" class="hover:underline">Ofertas</a>
+          <a href="/login"
+             class="px-4 py-2 bg-white rounded-md text-red-600 font-medium shadow-sm hover:shadow transition transform hover:scale-105 duration-200 text-base">
+            Inicio Sesión
+          </a>
+          <a href="/registro"
+             class="px-4 py-2 bg-white rounded-md text-red-600 font-medium shadow-sm hover:shadow transition transform hover:scale-105 duration-200 text-base">
+            Registro
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MENÚ RESPONSIVE-->
+    <div class="hidden" id="navbar-menu">
+      <div class="px-6 pb-4 space-y-2 text-white text-base font-semibold md:hidden">
+        <a href="/" class="block py-2 hover:underline">Inicio</a>
+        <a href="/pokedex" class="block py-2 hover:underline">Pokedex</a>
+        <a href="/ofertas" class="block py-2 hover:underline">Ofertas</a>
+        <a href="/login" class="block py-2 bg-white text-red-600 rounded-md text-center">Inicio Sesión</a>
+        <a href="/registro" class="block py-2 bg-white text-red-600 rounded-md text-center">Registro</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+</body>
+</html>
