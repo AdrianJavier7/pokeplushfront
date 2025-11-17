@@ -61,14 +61,24 @@
   </aside>
 </section>
 
-<div class="hidden md:block w-[100%] overflow-hidden relative h-[500px]">
-  <div class="flex animate-slide">
-    <img src="assets/imagenpokemon.jfif" class="w-full flex-shrink-0 object-cover" alt="Imagen 1" />
-    <img src="assets/imagenpokemon1.jfif" class="w-full flex-shrink-0 object-cover" alt="Imagen 2" />
-    <img src="assets/imagenpokemon2.jfif" class="w-full flex-shrink-0 object-cover" alt="Imagen 3" />
-  </div>
-</div>
+<nav class="relative w-full h-[700px] overflow-hidden">
+  <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+    <div class="relative">
+      <img src="assets/nintendo-switch.png"
+           alt="Nintendo Switch"
+           class="max-w-[1100px] w-[90%] md:w-[1000px] object-contain mx-auto" />
 
+      <div
+        class="absolute left-[77%] top-[85%] w-[54%] h-[70%] transform -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg pointer-events-auto">
+        <div class="flex h-full animate-slide" style="animation-duration: 15s;">
+          <img src="assets/imagenpokemon.jfif" class="w-full flex-shrink-0 object-cover" alt="Imagen 1" />
+          <img src="assets/imagenpokemon1.jfif" class="w-full flex-shrink-0 object-cover" alt="Imagen 2" />
+          <img src="assets/imagenpokemon2.jfif" class="w-full flex-shrink-0 object-cover" alt="Imagen 3" />
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
 
 <app-footer></app-footer>
 
