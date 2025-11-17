@@ -23,5 +23,13 @@ export const routes: Routes = [
     path: 'navbar',
     loadComponent:() => import('./navbar/navbar').then((m) => m.Navbar),
   },
+  {
+    path: 'registro',
+    loadComponent:() => import('./registro/registro.component').then((m) => m.RegistroComponent),
+  },
+  {
+    path: 'inicio-sesion',
+    loadComponent:() => import('./inicio-sesion/inicio-sesion.component').then((m) => m.InicioSesionComponent),
+  },
   {path: 'productos/:id', component: DetallesProducto}
 ];
