@@ -29,14 +29,10 @@ export const routes: Routes = [
   {
     path: 'registro',
     loadComponent:() => import('./registro/registro.component').then((m) => m.RegistroComponent),
-    loadComponent: () => import('./registro/registro.component').then((m) => m.RegistroComponent),
   },
   {
     path: 'inicio-sesion',
     loadComponent:() => import('./inicio-sesion/inicio-sesion.component').then((m) => m.InicioSesionComponent),
-  },
-  {path: 'productos/:id', component: DetallesProducto}
-    loadComponent: () => import('./inicio-sesion/inicio-sesion.component').then((m) => m.InicioSesionComponent),
   },
   {
     path: 'carrito',

@@ -58,7 +58,7 @@
                  [routerLink]="['/productos', producto.id]"
             >
               <div class="bg-gray-100 rounded-md overflow-hidden mb-3 aspect-square">
-                <img [src]="producto.foto" [alt]="producto.nombre" class="object-cover w-full h-full" />
+                <img [src]="producto.foto ? 'data:image/jpeg;base64,' + producto.foto : 'assets/default.jpg'" [alt]="producto.nombre" class="object-cover w-full h-full"/>
               </div>
               <h2 class="text-white font-bold text-lg">{{producto.nombre}}</h2>
               <p class="text-red-400 text-sm">Tipo: {{producto.tipo}}</p>
