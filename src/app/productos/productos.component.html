@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PokePlush</title>
 </head>
-<body class="bg-white p-6 font-pixel flex items-center min-h-screen">
+<body class="font-pixel items-center min-h-screen">
+<header>
+  <app-navbar></app-navbar>
+</header>
   <div class="bg-red-600 border-1 border-black rounded-xl p-4 w-full shadow-lg relative">
     <div class="flex items-center gap-2">
       <!-- Botón circular -->
@@ -95,19 +98,7 @@
     });
   </script>
 
+<app-footer></app-footer>
 
 </body>
 </html>
-
-<!--
-<div class="contenedor_card">
-  <div *ngFor="let producto of productos" class="card">
-    <h2>{{producto.nombre}}</h2>
-    <p>{{producto.precio}}</p>
-
-    <button [routerLink]="['/productos', producto.id]">
-      Ver producto
-    </button>
-  </div>
-</div>
--->

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import {DetallesProducto} from './detalles-producto/detalles-producto';
 
 export const routes: Routes = [
   {
@@ -22,4 +23,5 @@ export const routes: Routes = [
     path: 'navbar',
     loadComponent:() => import('./navbar/navbar').then((m) => m.Navbar),
   },
+  {path: 'productos/:id', component: DetallesProducto}
 ];
