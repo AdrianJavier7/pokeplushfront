@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PokePlush</title>
 </head>
-<body class="bg-white p-6 font-pixel">
+<body class="bg-white font-pixel">
+
+<header>
+  <app-navbar></app-navbar>
+</header>
 
 <div *ngIf="producto" class="max-w-4xl mx-auto bg-white p-6 flex flex-col md:flex-row gap-6 text-sm leading-relaxed tracking-tight">
 
@@ -86,6 +90,6 @@
     <div class="text-yellow-400 text-xl">⭐⭐⭐⭐⭐</div>
   </div>
 </div>
-
+<app-footer></app-footer>
 </body>
 </html>

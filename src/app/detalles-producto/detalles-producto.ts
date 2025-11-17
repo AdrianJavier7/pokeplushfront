@@ -3,12 +3,14 @@ import {Producto} from '../modelos/Producto';
 import {ProductoService} from '../servicios/producto';
 import {ActivatedRoute, RouterModule} from '@angular/router';
 import { CommonModule } from '@angular/common';
+import {Navbar} from '../navbar/navbar';
+import {Footer} from '../footer/footer';
 
 
 @Component({
   selector: 'app-detalles-producto',
   templateUrl: './detalles-producto.html',
-  imports: [CommonModule,
+  imports: [CommonModule, Navbar, Footer,
   ]
 })
 export class DetallesProducto implements OnInit {
