@@ -17,5 +17,13 @@ export const routes: Routes = [
   {
     path: 'detalles-producto',
     loadComponent: () => import('./detalles-producto/detalles-producto').then((m)=> m.DetallesProducto),
+  },
+  {
+    path: 'registro',
+    loadComponent: () => import('./registro/registro.component').then((m)=> m.RegistroComponent),
+  },
+  {
+    path: 'inicio-sesion',
+    loadComponent: () => import('./inicio-sesion/inicio-sesion.component').then((m)=> m.InicioSesionComponent),
   }
 ];
