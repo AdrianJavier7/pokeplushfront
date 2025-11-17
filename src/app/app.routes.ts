@@ -18,7 +18,10 @@ export const routes: Routes = [
   {
     path: 'productos/:id', component: DetallesProducto
   },
-  {path: '**', redirectTo: 'productos'},
+  {
+    path: 'productos',
+    loadComponent: () => import('./productos/productos.component').then((m)=> m.ProductosComponent),
+  },
   {
     path: 'registro',
     loadComponent: () => import('./registro/registro.component').then((m)=> m.RegistroComponent),
