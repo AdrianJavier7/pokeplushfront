@@ -12,65 +12,35 @@
 
       <div class="flex flex-col items-center gap-6">
 
-        <a href="#" class="w-full mx-2 flex flex-col md:flex-row items-start bg-white/40 dark:bg-gray-800/40 p-4 md:p-6 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:bg-white/50 dark:hover:bg-gray-800/50">
-          <img class="object-cover w-full md:w-48 h-64 md:h-auto rounded-lg mb-4 md:mb-0 md:mr-6" src="/bulbasur.jpeg" alt="Nombre producto">
-          <div class="flex flex-col justify-between flex-1">
-            <div class="flex justify-between items-center w-full mb-2">
-              <h5 class="text-2xl font-bold text-gray-900 dark:text-white">Nombre producto</h5>
-              <p class="text-xl font-bold text-gray-900 dark:text-white">16,99€</p>
-            </div>
-            <p class="text-gray-700 dark:text-gray-300 mb-4">Descripción del producto</p>
-            <div class="flex justify-between items-center w-full">
-              <p class="text-gray-900 dark:text-white">Cant: 1</p>
-              <button class="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400">Quitar</button>
-            </div>
-          </div>
-        </a>
+        <!-- src/app/carrito/carrito.html -->
+        <!-- Nota: en src/app/carrito/CarritoComponent.ts debe quedar:
+             public productosEnCarrito: Producto[] = [];
+        -->
 
-        <a href="#" class="w-full mx-2 flex flex-col md:flex-row items-start bg-white/40 dark:bg-gray-800/40 p-4 md:p-6 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:bg-white/50 dark:hover:bg-gray-800/50">
-          <img class="object-cover w-full md:w-48 h-64 md:h-auto rounded-lg mb-4 md:mb-0 md:mr-6" src="/bulbasur.jpeg" alt="Nombre producto">
-          <div class="flex flex-col justify-between flex-1">
-            <div class="flex justify-between items-center w-full mb-2">
-              <h5 class="text-2xl font-bold text-gray-900 dark:text-white">Nombre producto</h5>
-              <p class="text-xl font-bold text-gray-900 dark:text-white">16,99€</p>
-            </div>
-            <p class="text-gray-700 dark:text-gray-300 mb-4">Descripción del producto</p>
-            <div class="flex justify-between items-center w-full">
-              <p class="text-gray-900 dark:text-white">Cant: 1</p>
-              <button class="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400">Quitar</button>
-            </div>
-          </div>
-        </a>
+        @for (prod of productosEnCarrito; track i; let i = $index) {
+          <div class="w-full mx-2 flex flex-col md:flex-row items-start bg-white/40 dark:bg-gray-800/40 p-4 md:p-6 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:bg-white/50 dark:hover:bg-gray-800/50 mb-4">
+            <img [src]="'/bulbasur.jpeg'"
+                 class="object-cover w-full md:w-48 h-64 md:h-auto rounded-lg mb-4 md:mb-0 md:mr-6"
+                 [alt]="prod.nombre || 'Producto ' + (i + 1)">
 
-        <a href="#" class="w-full mx-2 flex flex-col md:flex-row items-start bg-white/40 dark:bg-gray-800/40 p-4 md:p-6 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:bg-white/50 dark:hover:bg-gray-800/50">
-          <img class="object-cover w-full md:w-48 h-64 md:h-auto rounded-lg mb-4 md:mb-0 md:mr-6" src="/bulbasur.jpeg" alt="Nombre producto">
-          <div class="flex flex-col justify-between flex-1">
-            <div class="flex justify-between items-center w-full mb-2">
-              <h5 class="text-2xl font-bold text-gray-900 dark:text-white">Nombre producto</h5>
-              <p class="text-xl font-bold text-gray-900 dark:text-white">16,99€</p>
-            </div>
-            <p class="text-gray-700 dark:text-gray-300 mb-4">Descripción del producto</p>
-            <div class="flex justify-between items-center w-full">
-              <p class="text-gray-900 dark:text-white">Cant: 1</p>
-              <button class="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400">Quitar</button>
-            </div>
-          </div>
-        </a>
+            <div class="flex flex-col justify-between flex-1">
+              <div class="flex justify-between items-center w-full mb-2">
+                <h5 class="text-2xl font-bold text-gray-900 dark:text-white">{{ prod.nombre }}</h5>
+                <p class="text-xl font-bold text-gray-900 dark:text-white">{{ prod.precio }}€</p>
+              </div>
 
-        <a href="#" class="w-full mx-2 flex flex-col md:flex-row items-start bg-white/40 dark:bg-gray-800/40 p-4 md:p-6 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:bg-white/50 dark:hover:bg-gray-800/50">
-          <img class="object-cover w-full md:w-48 h-64 md:h-auto rounded-lg mb-4 md:mb-0 md:mr-6" src="/bulbasur.jpeg" alt="Nombre producto">
-          <div class="flex flex-col justify-between flex-1">
-            <div class="flex justify-between items-center w-full mb-2">
-              <h5 class="text-2xl font-bold text-gray-900 dark:text-white">Nombre producto</h5>
-              <p class="text-xl font-bold text-gray-900 dark:text-white">16,99€</p>
-            </div>
-            <p class="text-gray-700 dark:text-gray-300 mb-4">Descripción del producto</p>
-            <div class="flex justify-between items-center w-full">
-              <p class="text-gray-900 dark:text-white">Cant: 1</p>
-              <button class="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400">Quitar</button>
+              <p class="text-gray-700 dark:text-gray-300 mb-4">{{ prod.descripcion }}</p>
+
+              <div class="flex justify-between items-center w-full">
+                <p class="text-gray-900 dark:text-white">Cant: {{obtenerCantidadProducto(prod.id?? 0)}}</p>
+                <button
+                        class="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400">
+                  Quitar
+                </button>
+              </div>
             </div>
           </div>
-        </a>
+        }
 
       </div>
     </div>
