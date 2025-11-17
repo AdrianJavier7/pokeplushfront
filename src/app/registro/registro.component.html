@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Registrarse</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="assets/LogoPokemon.png">
+  <style>
+    input#remember-alternative {
+      color: #386ABB !important;
+      accent-color: #386ABB !important;
+      background-color: transparent !important;
+    }
+  </style>
+</head>
+<body class="bg-[#D70C0C]">
+<div class="min-h-screen bg-[#D70C0C] flex items-center">
+  <div class="w-full max-w-8xl mx-auto grid grid-cols-1 md:grid-cols-2 divide-x-4 divide-white h-[100vh] py-16">
+
+    <div class="p-8 flex items-center justify-center">
+      <div class="text-white">
+        <img src="assets/ImagenRegistrarse.png" class="w-85 md:w-[30rem] lg:w-[30rem]">
+      </div>
+    </div>
+
+    <div class="p-8 flex flex-col items-center justify-center">
+      <img src="assets/BienvenidoMensaje.png" alt="Bienvenido" class="w-80 md:w-96 lg:w-[36rem] mb-6">
+      <div class="w-full max-w-md bg-white rounded-xl p-8 shadow-lg">
+        <form class="space-y-4" (ngSubmit)="hacerRegistro()" #registroForm="ngForm" novalidate>
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input id="email" name="email" type="email" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Introduzca tu correo electrónico" [(ngModel)]="registro.email">
+          </div>
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+            <input id="password" name="password" type="password" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Introduzca tu contraseña" [(ngModel)]="registro.password">
+          </div>
+          <div class="flex items-start mb-5">
+            <label for="remember-alternative" class="flex items-center h-5">
+              <input id="remember-alternative" name="acceptPolicies" type="checkbox" class="w-4 h-4 border border-gray-300 rounded-xs" [(ngModel)]="aceptaTerminos" aria-label="Acepto las políticas"/>
+              <p class="ms-2 text-sm font-medium text-heading select-none">Acepto las políticas y condiciones</p>
+            </label>
+          </div>
+          <div>
+            <button type="submit" class="w-full bg-[#386ABB] text-white py-2 rounded-md font-medium hover:opacity-90">Registrarse</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
