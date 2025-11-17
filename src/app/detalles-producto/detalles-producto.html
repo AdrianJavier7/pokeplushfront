@@ -4,12 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PokePlush</title>
-
-
 </head>
 <body class="bg-white p-6 font-pixel">
 
-<div class="max-w-4xl mx-auto bg-white p-6 flex flex-col md:flex-row gap-6 text-sm leading-relaxed tracking-tight">
+<div *ngIf="producto" class="max-w-4xl mx-auto bg-white p-6 flex flex-col md:flex-row gap-6 text-sm leading-relaxed tracking-tight">
 
   <div class="flex-shrink-0">
     <img src="../../assets/descarga.jpg" alt="Peluche Squirtle" class="w-80 h-auto rounded-lg" />
@@ -19,7 +17,7 @@
     <!-- Nombre producto -->
     <div class="flex items-center gap-4 mt-2">
       <h1 class="text-3xl text-gray-800 flex items-center gap-2">
-        Squirtle
+        {{producto.nombre}}
       </h1>
       <img src="../../assets/agua.png" alt="tipo" class="w-7 h-auto">
     </div>
@@ -29,7 +27,7 @@
 
 
     <div class="flex items-center gap-4 mt-2">
-      <p class="text-gray-800 text-4xl font-concert">22€</p>
+      <p class="text-gray-800 text-4xl font-concert">{{producto.precio}}€</p>
       <button class="w-10 h-10 flex items-center justify-center rounded-full bg-red-500 shadow-md hover:bg-red-600">
         <img src="assets/icons8-carro-de-la-compra-48.png" alt="Carrito" class="w-5 h-5" />
       </button>
@@ -42,9 +40,7 @@
       <div class="w-6 bg-red-500"></div>
 
       <div class="flex-1 p-4 text-gray-800 text-xl leading-relaxed tracking-tight">
-        Su suave lomo redondeado recuerda al de una pequeña tortuga.
-        Al apretarlo, parece cobrar vida con su ternura.
-        Perfecto para abrazar, este peluche desprende una dulzura tan grande que derretirá cualquier corazón.
+        {{producto.descripcion}}
       </div>
 
       <!-- Barra roja descripción derecha -->
