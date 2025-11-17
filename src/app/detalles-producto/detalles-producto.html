@@ -4,73 +4,88 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PokePlush</title>
-
-  <!-- Fonts desde Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Concert+One&display=swap" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            pixel: ['"Pixelify Sans"', 'sans-serif'],
-            concert: ['"Concert One"', '"Concert Two"'],
-          },
-        },
-      },
-    };
-  </script>
-  <link href="https://cdn.jsdelivr.net/npm/flowbite@latest/dist/flowbite.min.css" rel="stylesheet" />
 </head>
 <body class="bg-white p-6 font-pixel">
 
-<!-- Tarjeta del producto con imagen a la izquierda -->
-<div class="max-w-4xl mx-auto bg-white p-6 flex flex-col md:flex-row gap-6 text-sm leading-relaxed tracking-tight">
+<div *ngIf="producto" class="max-w-4xl mx-auto bg-white p-6 flex flex-col md:flex-row gap-6 text-sm leading-relaxed tracking-tight">
 
-  <!-- Imagen del peluche -->
   <div class="flex-shrink-0">
-    <img src="assets/squirtle.png" alt="Peluche Squirtle" class="w-48 h-auto rounded-lg" />
+    <img src="../../assets/descarga.jpg" alt="Peluche Squirtle" class="w-80 h-auto rounded-lg" />
   </div>
 
-  <!-- Información del producto -->
   <div class="flex-1">
-    <!-- Título -->
-    <h1 class="text-xl text-gray-800 flex items-center gap-2">
-      Squirtle <span class="text-blue-500 text-lg">💧</span>
-    </h1>
+    <!-- Nombre producto -->
+    <div class="flex items-center gap-4 mt-2">
+      <h1 class="text-3xl text-gray-800 flex items-center gap-2">
+        {{producto.nombre}}
+      </h1>
+      <img src="../../assets/agua.png" alt="tipo" class="w-7 h-auto">
+    </div>
 
     <!-- Valoración -->
-    <p class="text-yellow-500 mt-2 text-2xs font-concert">★★★★★ (123 reseñas)</p>
+    <p class="text-yellow-500 mt-2 text-xs font-concert">★★★★★ (123 reseñas)</p>
 
-    <!-- Precio y carrito -->
+
     <div class="flex items-center gap-4 mt-2">
-      <p class="text-black text-2xl font-concert">22€</p>
-      <!-- Botón circular rojo con icono de carrito blanco -->
+      <p class="text-gray-800 text-4xl font-concert">{{producto.precio}}€</p>
       <button class="w-10 h-10 flex items-center justify-center rounded-full bg-red-500 shadow-md hover:bg-red-600">
-        <!-- Icono de carrito (SVG blanco) -->
-        <img src="../../assets/icons8-carro-de-la-compra-24.png" alt="Carrito" class="w-5 h-5" />
+        <img src="assets/icons8-carro-de-la-compra-48.png" alt="Carrito" class="w-5 h-5" />
       </button>
     </div>
 
 
-    <!-- Descripción con barras rojas -->
-    <div class="mt-4 flex items-stretch bg-white shadow-lg rounded-md overflow-hidden border border-gray-300">
-      <!-- Barra roja izquierda -->
-      <div class="w-2 bg-red-500"></div>
 
-      <!-- Texto -->
-      <div class="flex-1 p-4 text-gray-800 text-sm leading-relaxed tracking-tight">
-        Su suave lomo redondeado recuerda al de una pequeña tortuga.
-        Al apretarlo, parece cobrar vida con su ternura.
-        Perfecto para abrazar, este peluche desprende una dulzura tan grande que derretirá cualquier corazón.
+    <div class="mt-4 flex items-stretch bg-white shadow-lg rounded-md overflow-hidden border border-black">
+      <!-- Barra roja descripción izquierda -->
+      <div class="w-6 bg-red-500"></div>
+
+      <div class="flex-1 p-4 text-gray-800 text-xl leading-relaxed tracking-tight">
+        {{producto.descripcion}}
       </div>
 
-      <!-- Barra roja derecha -->
-      <div class="w-2 bg-red-500"></div>
+      <!-- Barra roja descripción derecha -->
+      <div class="w-6 bg-red-500"></div>
     </div>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/flowbite@latest/dist/flowbite.min.js"></script>
+
+<div class="max-w-4xl mx-auto mt-10 bg-white p-6 rounded-2xl text-center font-pixel">
+  <h2 class="text-3xl mb-4">Escribe tu reseña</h2>
+
+  <div class="flex justify-center mb-4 text-4xl text-yellow-400">
+    <span>⭐</span>
+    <span>⭐</span>
+    <span>⭐</span>
+    <span>⭐</span>
+    <span>⭐</span>
+  </div>
+
+  <textarea
+    placeholder="Escribe aquí tu opinión..."
+    class="w-full border border-gray-300 rounded-lg p-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+    rows="3"
+  ></textarea>
+
+  <button
+    class="mt-4 bg-yellow-400 hover:bg-yellow-500 text-white px-6 py-2 rounded-lg font-concert transition"
+  >
+    Enviar reseña
+  </button>
+
+  <h2 class="text-3xl mt-10 mb-6">Reseñas</h2>
+
+  <div class="p-6 rounded-3xl flex justify-between items-start shadow-inner">
+    <div class="text-left">
+      <p class="font-bold text-lg mb-2">Marta</p>
+      <p class="text-gray-800">
+        Excelente peluche, la calidad es increíble y con un perfume exquisito
+      </p>
+    </div>
+    <div class="text-yellow-400 text-xl">⭐⭐⭐⭐⭐</div>
+  </div>
+</div>
+
 </body>
 </html>

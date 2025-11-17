@@ -1,1 +1,113 @@
-<p>productos works!</p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PokePlush</title>
+</head>
+<body class="bg-white p-6 font-pixel flex items-center min-h-screen">
+  <div class="bg-red-600 border-1 border-black rounded-xl p-4 w-full shadow-lg relative">
+    <div class="flex items-center gap-2">
+      <!-- Botón circular -->
+      <div class="w-6 h-6 bg-red-900 border-2 border-black rounded-full shadow-inner"></div>
+
+      <!-- Indicadores verticales -->
+      <div class="flex flex-col gap-1">
+        <div class="w-2 h-2 rounded-full bg-red-500 border border-black"></div>
+        <div class="w-2 h-2 rounded-full bg-yellow-300 border border-black"></div>
+        <div class="w-2 h-2 rounded-full bg-green-500 border border-black"></div>
+      </div>
+      <h1 class="ml-auto text-white font-bold text-lg text-right tracking-wide text-">POKÉDEX</h1>
+
+    </div>
+
+    <div class="bg-gray-100 rounded-lg p-4 mb-4">
+      <div class="bg-gray-700 rounded-lg p-4 mb-4">
+        <div class="bg-gray-900 rounded-lg p4 mb-4">
+          <div class="flex items-center gap-2 mb-4">
+            <input type="text"
+                   placeholder="Buscar pokémon..."
+                   class="w-full bg-[#1e1e1e] text-gray-300 placeholder-gray-400 rounded-full pl-10 py-2 text-sm focus:outline focus:ring-2 focus:ring-red-500">
+          </div>
+          <div class="relative inline-block text-left" id="dropdown-container">
+            <button
+              id="dropdown-button"
+              onclick="toggleDropdown()"
+              class="inline-flex items-center justify-center gap-1 bg-[#1e1e1e] text-green-400 py-2 text-sm rounded-md hover:bg-[#2a2a2a] focus:outline-none focus:ring-green-500">
+              ↑↓ Orden Alfabético
+              <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+              </svg>
+            </button>
+
+            <!-- Menú desplegable -->
+            <div id="dropdown-menu" class="absolute z-10 mt-2 w-48 origin-top-right rounded-md bg-[#1e1e1e] shadow-lg ring-1 ring-black ring-opacity-5 hidden">
+              <div class="py-1 text-green-400 text-sm">
+                <button onclick="selectOption('Orden Alfabético')" class="block w-full px-4 py-2 text-left hover:bg-[#2a2a2a]">Orden Alfabético</button>
+                <button onclick="selectOption('Precio: Menor a mayor')" class="block w-full px-4 py-2 text-left hover:bg-[#2a2a2a]">Precio: Menor a Mayor</button>
+                <button onclick="selectOption('Precio: Mayor a menor')" class="block w-full px-4 py-2 text-left hover:bg-[#2a2a2a]">Precio: Mayor a Menor</button>
+                <button onclick="selectOption('Más valorados')" class="block w-full px-4 py-2 text-left hover:bg-[#2a2a2a]">Más Valorados</button>
+              </div>
+            </div>          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div *ngFor="let producto of productos"
+                 class="bg-[#0c1c3c] rounded-lg p-4 shadow-md border border-transparent transition-all duration-300 hover:bg-[#1a2e5c] hover:border-gray-300 hover:shadow-xl cursor-pointer"
+                 [routerLink]="['/productos', producto.id]"
+            >
+              <div class="bg-gray-100 rounded-md overflow-hidden mb-3 aspect-square">
+                <img [src]="producto.foto" [alt]="producto.nombre" class="object-cover w-full h-full" />
+              </div>
+              <h2 class="text-white font-bold text-lg">{{producto.nombre}}</h2>
+              <p class="text-red-400 text-sm">Tipo: {{producto.tipo}}</p>
+              <p class="text-white font-semibold mt-2">{{producto.precio}} €</p>
+              <p class="text-yellow-300 text-sm">⭐ 4.5</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleDropdown() {
+      const menu = document.getElementById("dropdown-menu");
+      menu.classList.toggle("hidden");
+    }
+
+    function selectOption(text) {
+      const button = document.getElementById("dropdown-button");
+      // Actualiza el texto del botón y mantiene el icono
+      button.innerHTML = `${text}
+      <svg class="w-4 h-4 text-green-400 ml-1 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+      </svg>`;
+      // Cierra el menú
+      document.getElementById("dropdown-menu").classList.add("hidden");
+    }
+
+    // Cierra el menú si haces clic fuera
+    document.addEventListener("click", function (e) {
+      const container = document.getElementById("dropdown-container");
+      const menu = document.getElementById("dropdown-menu");
+      if (!container.contains(e.target)) {
+        menu.classList.add("hidden");
+      }
+    });
+  </script>
+
+
+</body>
+</html>
+
+<!--
+<div class="contenedor_card">
+  <div *ngFor="let producto of productos" class="card">
+    <h2>{{producto.nombre}}</h2>
+    <p>{{producto.precio}}</p>
+
+    <button [routerLink]="['/productos', producto.id]">
+      Ver producto
+    </button>
+  </div>
+</div>
+-->
