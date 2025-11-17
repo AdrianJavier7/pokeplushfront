@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Producto} from '../modelos/Producto';
 import { CommonModule } from '@angular/common';
-import {ProductoService} from '../servicios/producto';
+import {ProductoService} from '../servicios/ProductoService';
 import {RouterLink} from '@angular/router';
 import {Navbar} from '../navbar/navbar';
 import {Footer} from '../footer/footer';

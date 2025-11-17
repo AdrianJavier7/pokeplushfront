@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import {DetallesProducto} from './detalles-producto/detalles-producto';
 
 export const routes: Routes = [
   {
@@ -17,19 +16,31 @@ export const routes: Routes = [
   },
   {
     path: 'detalles-producto',
-    loadComponent: () => import('./detalles-producto/detalles-producto').then((m)=> m.DetallesProducto),
+    loadComponent: () => import('./detalles-producto/detalles-producto').then((m) => m.DetallesProducto),
   },
   {
     path: 'navbar',
     loadComponent:() => import('./navbar/navbar').then((m) => m.Navbar),
   },
   {
+    path: 'productos/:id',
+    loadComponent: () => import('./detalles-producto/detalles-producto').then((m) => m.DetallesProducto),
+  },
+  {
     path: 'registro',
     loadComponent:() => import('./registro/registro.component').then((m) => m.RegistroComponent),
+    loadComponent: () => import('./registro/registro.component').then((m) => m.RegistroComponent),
   },
   {
     path: 'inicio-sesion',
     loadComponent:() => import('./inicio-sesion/inicio-sesion.component').then((m) => m.InicioSesionComponent),
   },
   {path: 'productos/:id', component: DetallesProducto}
+    loadComponent: () => import('./inicio-sesion/inicio-sesion.component').then((m) => m.InicioSesionComponent),
+  },
+  {
+    path: 'carrito',
+    loadComponent: () => import('./carrito/CarritoComponent').then((m) => m.CarritoComponent),
+  },
+  { path: '**', redirectTo: 'productos' },
 ];
