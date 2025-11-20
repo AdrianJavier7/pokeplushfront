@@ -66,7 +66,7 @@ export class CarritoComponent implements OnInit {
     });
   }
 
-// typescript
+
   obtenerCantidadProducto(idProducto: number): number {
     const item = this.itemsEnCarrito.find(i => i.idProducto === idProducto);
     return item?.cantidad ?? 0;
@@ -82,6 +82,15 @@ export class CarritoComponent implements OnInit {
         console.error('Error al finalizar compra:', err);
       }
     });
+  }
+
+  calcularTotal(): number {
+    let total = 0;
+    for (const producto of this.productosEnCarrito) {
+      const cantidad = this.obtenerCantidadProducto(producto.id!);
+      total += producto.precio! * cantidad;
+    }
+    return total;
   }
 
   quitarItem(idProducto: number) {
