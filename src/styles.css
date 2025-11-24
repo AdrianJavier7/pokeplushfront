@@ -3,3 +3,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.estiloLetra{
+  font-family: "Pixelify Sans", Helvetica, sans-serif;
+}
