@@ -1,0 +1,67 @@
+<app-navbar></app-navbar>
+
+<!-- html -->
+<div class="flex flex-col md:flex-row items-center justify-center w-full max-w-5xl mx-auto mt-10 px-4 gap-4 text-center">
+  <h1 class="text-3xl md:text-5xl estiloLetra">
+    Detalles del pedido -
+  </h1>
+  <p class="text-3xl font-semibold ">
+    {{ calcularTotal() }}€
+  </p>
+</div>
+
+
+
+<div class="grid grid-cols-1 m-10 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10 px-4 md:px-10">
+
+  @for (producto of productosEnCarrito; track producto.id) {
+
+    <div
+      class="bg-white rounded-2xl shadow-md border border-neutral-200 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+
+      <img
+        class="object-cover w-full h-56"
+        [src]="producto.foto"
+        alt="Imagen del producto">
+
+      <div class="p-6 flex flex-col justify-between min-h-[220px]">
+        <div>
+          <h5 class="text-xl font-semibold text-gray-800 mb-2">
+            {{ producto.nombre }}
+          </h5>
+
+          <p class="text-gray-600 mb-3">
+            <span class="font-semibold">Precio:</span> {{ producto.precio }}
+          </p>
+
+          <p class="text-gray-600">
+            <span class="font-semibold">Cantidad:</span>
+            {{ obtenerCantidadProducto(producto.id!) }}
+          </p>
+        </div>
+
+        <button type="button"
+                class="mt-6 inline-flex items-center justify-center gap-2 w-full px-5 py-2.5
+               text-sm font-medium text-white bg-red-600 rounded-lg
+               hover:bg-red-700 focus:ring-4 focus:ring-black-300
+               transition-all duration-150">
+          Ir al producto
+          <svg class="w-4 h-4"
+               aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+               width="24" height="24" fill="none"
+               viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round"
+                  stroke-linejoin="round" stroke-width="2"
+                  d="M19 12H5m14 0-4 4m4-4-4-4" />
+          </svg>
+        </button>
+
+      </div>
+    </div>
+
+  }
+
+</div>
+
+
+<app-footer></app-footer>

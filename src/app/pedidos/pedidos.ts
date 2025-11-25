@@ -4,11 +4,12 @@ import {Carrito} from '../modelos/Carrito';
 import {CarritoService} from '../servicios/CarritoService';
 import {ProductoService} from '../servicios/ProductoService';
 import {Producto} from '../modelos/Producto';
+import {Router, RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-pedidos',
   imports: [
-    Navbar
+    Navbar,
   ],
   templateUrl: './pedidos.html',
   styleUrl: './pedidos.css',
@@ -20,7 +21,7 @@ export class Pedidos implements OnInit {
   totalesPorPedido: { [idCarrito: number]: number } = {};
 
 
-  constructor(private carritoService: CarritoService, private productoService: ProductoService) {}
+  constructor(private carritoService: CarritoService, private productoService: ProductoService, private router: Router) {}
 
 
   ngOnInit() {
@@ -83,6 +84,9 @@ export class Pedidos implements OnInit {
     });
   }
 
+  detallesPedido(idPedido: number) {
+    this.router.navigate(['/detalles-pedido'], { state: { idPedido } });
+  }
 
 
 

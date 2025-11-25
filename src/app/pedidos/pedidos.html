@@ -10,47 +10,52 @@
 
 
       @for (pedido of pedidos; track pedido.id!) {
+        <!-- html -->
         <li class="py-4">
-          <div class="flex items-center justify-between gap-4">
+          <a
+            (click)="detallesPedido(pedido.id!)"
+            class="block w-full"
+            aria-label="Ver detalles del pedido {{ pedido.id }}"
+          >
+            <div class="flex items-center justify-between gap-4">
 
-            <div class="flex items-center gap-4">
-              <img
-                [src]="productosPorPedido[pedido.id!] && productosPorPedido[pedido.id!][0]?.foto
-                ? 'data:image/jpeg;base64,' + productosPorPedido[pedido.id!][0]?.foto
-                : 'assets/default.jpg'"
-                [alt]="'Producto del pedido ' + pedido.id"
-                class="w-16 h-16 rounded object-cover"
-              />
+              <div class="flex items-center gap-4">
+                <img
+                  [src]="productosPorPedido[pedido.id!] && productosPorPedido[pedido.id!][0]?.foto"
+                  [alt]="'Producto del pedido ' + pedido.id"
+                  class="w-16 h-16 rounded object-cover"
+                />
 
-
-              <div class="min-w-0">
-                <p class="font-semibold text-lg text-heading truncate">
-                  Pedido #{{ pedido.id }}
-                </p>
-                <p class="text-base text-body truncate">
-                  Estado: {{ pedido.estado }}
-                </p>
-              </div>
-            </div>
-
-            <div class="flex items-center gap-4">
-
-              <div class="text-right">
-                <p class="text-base font-medium text-heading">Fecha: {{ pedido.creadoEn }}</p>
-                <p class="text-base text-body">Total: ${{ totalesPorPedido[pedido.id!] }}</p>
+                <div class="min-w-0">
+                  <p class="font-semibold text-lg text-heading truncate">
+                    Pedido #{{ pedido.id }}
+                  </p>
+                  <p class="text-base text-body truncate">
+                    Estado: {{ pedido.estado }}
+                  </p>
+                </div>
               </div>
 
-              <button
-                class="inline-flex items-center justify-center text-fg-danger bg-transparent border border-transparent hover:bg-neutral-secondary-medium focus:ring-4 focus:ring-neutral-tertiary font-medium rounded-base h-10 w-10">
-                <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                     viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
-                </svg>
-              </button>
+              <div class="flex items-center gap-4">
+                <div class="text-right">
+                  <p class="text-base font-medium text-heading">Fecha: {{ pedido.creadoEn }}</p>
+                  <p class="text-base text-body">Total: ${{ totalesPorPedido[pedido.id!] }}</p>
+                </div>
 
+                <button
+                  type="button"
+                  (click)="$event.stopPropagation()"
+                  class="inline-flex items-center justify-center text-fg-danger bg-transparent border border-transparent hover:bg-neutral-secondary-medium focus:ring-4 focus:ring-neutral-tertiary font-medium rounded-base h-10 w-10"
+                >
+                  <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                       viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
+                  </svg>
+                </button>
+              </div>
             </div>
-          </div>
+          </a>
         </li>
       }
 

@@ -33,4 +33,14 @@ export class CarritoService {
     return this.http.post<any>('http://localhost:8080/carrito/procesando', {}, options);
   }
 
+  obtenerPedidoActual(id: number): Observable<Carrito> {
+    const options = this.comun.autorizarPeticion();
+    return this.http.get<any>('http://localhost:8080/carrito/obtener/' + id, options);
+  }
+
+  cancelarPedido(id: number): Observable<any> {
+    const options = this.comun.autorizarPeticion();
+    return this.http.post<any>('http://localhost:8080/carrito/cancelar/' + id, options);
+  }
+
 }

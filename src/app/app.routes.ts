@@ -42,5 +42,9 @@ export const routes: Routes = [
     path: 'pedidos',
     loadComponent: () => import('./pedidos/pedidos').then((m) => m.Pedidos),
   },
+  {
+    path: 'detalles-pedido',
+    loadComponent: () => import('./detalles-pedido/detalles-pedido').then((m) => m.DetallesPedido),
+  },
   { path: '**', redirectTo: 'productos' },
 ];
