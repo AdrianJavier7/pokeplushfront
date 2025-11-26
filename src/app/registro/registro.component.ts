@@ -3,11 +3,13 @@ import {Registro} from '../modelos/Registro';
 import {RegistroService} from '../servicios/registro.service';
 import {FormsModule, NgForm} from '@angular/forms';
 import {Router} from '@angular/router';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-registro',
   imports: [
-    FormsModule
+    FormsModule,
+    NgIf
   ],
   templateUrl: './registro.component.html',
   styleUrl: './registro.component.css'
@@ -17,6 +19,7 @@ export class RegistroComponent {
 
   registro: Registro = new Registro();
   aceptaTerminos: boolean = false;
+  cargando: boolean = false;
 
   constructor(private registroService: RegistroService, private router: Router) { }
 
@@ -38,22 +41,26 @@ export class RegistroComponent {
       return;
     }
 
+    this.cargando = true;
     const creds = { email: this.registro.email, password: this.registro.password };
 
     this.registroService.registrarUsuario(this.registro).subscribe({
       next: () => {
         this.registroService.enviarEmail(creds).subscribe({
           next: () => {
+            this.cargando = false;
             alert('Registro exitoso.');
             this.resetear();
           },
           error: () => {
-            alert('Registro exitoso');
+            this.cargando = false;
+            alert('Registro fallido');
             this.resetear();
           }
         });
       },
       error: (err: any) => {
+        this.cargando = false;
         const mensajeServidor = err?.error?.message || err?.error || err?.message;
         if (err?.status === 409 || /registrad/i.test(mensajeServidor)) {
           alert('El correo ya está registrado. Por favor use otro correo o inicie sesión.');
