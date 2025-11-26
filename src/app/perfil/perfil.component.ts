@@ -89,7 +89,7 @@ export class PerfilComponent implements OnInit {
     sessionStorage.removeItem('authToken');
     this.loginService.setAuthState(false);
     this.perfilService.setUsuario(undefined);
-    this.router.navigate(['/principal']);
+    this.router.navigate(['/pedidos']);
   }
 
   irCarrito(): void {
