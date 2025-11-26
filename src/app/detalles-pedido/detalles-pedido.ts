@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {CarritoService} from '../servicios/CarritoService';
 import {Carrito} from '../modelos/Carrito';
 import {ItemCarrito} from '../modelos/ItemCarrito';
@@ -12,7 +12,8 @@ import {Footer} from '../footer/footer';
   selector: 'app-detalles-pedido',
   imports: [
     Navbar,
-    Footer
+    Footer,
+    RouterLink
   ],
   templateUrl: './detalles-pedido.html'
 })
