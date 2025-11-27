@@ -97,13 +97,27 @@
                  Ahora está posicionado respecto al <nav> (parent .relative) -->
             <div class="mobile-menu bg-red-600 absolute top-full left-0 right-0 z-40">
               <div class="px-6 pb-6 space-y-2 text-white text-base font-semibold">
-                <a href="/" class="block py-2 hover:underline">Inicio</a>
-                <a href="/pokedex" class="block py-2 hover:underline">Pokedex</a>
-                <a href="/carrito" class="block py-2 hover:underline">Carrito</a>
-                <a href="/login"
-                   class="block py-2 bg-white text-red-600 rounded-md text-center font-medium">Inicio Sesión</a>
-                <a href="/registro"
-                   class="block py-2 bg-white text-red-600 rounded-md text-center font-medium">Registro</a>
+                <a routerLink="/" class="block py-2 hover:underline">Inicio</a>
+                <a routerLink="/pokedex" class="block py-2 hover:underline">Pokedex</a>
+                <a routerLink="/carrito" class="block py-2 hover:underline">Carrito</a>
+
+                <ng-container *ngIf="!isAuthenticated">
+                  <a routerLink="/inicio-sesion"
+                     class="block py-2 bg-white text-red-600 rounded-md text-center font-medium">
+                    Inicio Sesión
+                  </a>
+                  <a routerLink="/registro"
+                     class="block py-2 bg-white text-red-600 rounded-md text-center font-medium">
+                    Registro
+                  </a>
+                </ng-container>
+
+                <ng-container *ngIf="isAuthenticated" class="pt-2">
+                  <button (click)="irPerfil()" class="flex items-center gap-3">
+                    <img [src]="usuario?.foto || 'assets/fotoPerfilPredeterminada.png'"
+                         alt="Perfil" class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md cursor-pointer" />
+                  </button>
+                </ng-container>
               </div>
             </div>
             <!-- FIN mobile-menu -->

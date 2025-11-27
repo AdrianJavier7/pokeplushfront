@@ -10,10 +10,11 @@ export class Comun {
 
   autorizarPeticion() {
     const headers:HttpHeaders = new HttpHeaders({
+      /*
       'Content-Type': 'application/json',
+       */
       'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),
     });
-
-    return {headers: headers}
+    return { headers: headers };
   }
 }
