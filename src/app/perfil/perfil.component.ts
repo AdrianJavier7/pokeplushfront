@@ -22,6 +22,7 @@ export class PerfilComponent implements OnInit {
   usuario: Usuario = { direccion: {} };
   fotoElegida ?: File;
   preevistaImagen: string | ArrayBuffer | null = null;
+  telefonoValido = true;
 
   constructor(private perfilService: PerfilService, private loginService: LoginService, private router: Router) {}
 
@@ -51,6 +52,17 @@ export class PerfilComponent implements OnInit {
   }
 
   guardarCambios(): void {
+    this.telefonoValido = this.validarTelefono();
+    if (!this.telefonoValido) {
+      alert('El teléfono debe tener exactamente 9 dígitos y deben ser números.');
+      return;
+    }
+
+    if (!this.validarFechaNacimiento()) {
+      alert('La fecha de nacimiento debe ser anterior o igual a la fecha de hoy.');
+      return;
+    }
+
     const cargar: Usuario = { ...this.usuario };
     if (cargar.fechaNacimiento) {
       cargar.fechaNacimiento = this.envioBackendFecha(cargar.fechaNacimiento);
@@ -63,10 +75,30 @@ export class PerfilComponent implements OnInit {
         }
         this.usuario = u;
         this.preevistaImagen = null;
-        console.log('Perfil actualizado');
+        alert('Perfil actualizado');
       },
       error: err => console.error('Error al actualizar perfil:', err)
     });
+  }
+
+  private validarTelefono(): boolean {
+    const t = (this.usuario as any).telefono;
+    if (t == null) return true;
+    const s = String(t).replace(/\s+/g, '');
+    return /^\d{9}$/.test(s);
+  }
+
+  private validarFechaNacimiento(): boolean {
+    const dateStr = (this.usuario as any).fechaNacimiento;
+    if (dateStr == null || dateStr === '') return true;
+
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return false;
+
+    const hoy = new Date();
+    d.setHours(0, 0, 0, 0);
+    hoy.setHours(0, 0, 0, 0);
+    return d.getTime() <= hoy.getTime();
   }
 
   // Convierte a yyyy-mm-dd para el date
