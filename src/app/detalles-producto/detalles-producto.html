@@ -1,95 +1,153 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PokePlush</title>
-</head>
-<body class="bg-white font-pixel">
+<!-- detalles-producto.html -->
 
 <header>
   <app-navbar></app-navbar>
 </header>
 
+<!-- DETALLE DEL PRODUCTO -->
 <div *ngIf="producto" class="max-w-4xl mx-auto bg-white p-6 flex flex-col md:flex-row gap-6 text-sm leading-relaxed tracking-tight">
-
   <div class="flex-shrink-0">
-    <img src="../../assets/descarga.jpg" alt="Peluche Squirtle" class="w-80 h-auto rounded-lg" />
+    <img src="../../assets/descarga.jpg" alt="Peluche" class="w-80 h-auto rounded-lg" />
   </div>
 
   <div class="flex-1">
-    <!-- Nombre producto -->
     <div class="flex items-center gap-4 mt-2">
       <h1 class="text-3xl text-gray-800 flex items-center gap-2">
-        {{producto.nombre}}
+        {{ producto.nombre }}
       </h1>
-      <img src="../../assets/agua.png" alt="tipo" class="w-7 h-auto">
+      <img src="../../assets/agua.png" alt="tipo" class="w-7 h-auto" />
     </div>
 
-    <!-- Valoración -->
-    <p class="text-yellow-500 mt-2 text-xs font-concert">★★★★★ (123 reseñas)</p>
-
+    <p class="text-yellow-500 mt-2 text-xs font-concert">
+      ★★★★★ ({{ opiniones.length || 0 }} reseñas)
+    </p>
 
     <div class="flex items-center gap-4 mt-2">
-      <p class="text-gray-800 text-4xl font-concert">{{producto.precio}}€</p>
+      <p class="text-gray-800 text-4xl font-concert">{{ producto.precio }}€</p>
       <button class="w-10 h-10 flex items-center justify-center rounded-full bg-red-500 shadow-md hover:bg-red-600">
         <img src="assets/icons8-carro-de-la-compra-48.png" alt="Carrito" class="w-5 h-5" />
       </button>
     </div>
 
-
-
     <div class="mt-4 flex items-stretch bg-white shadow-lg rounded-md overflow-hidden border border-black">
-      <!-- Barra roja descripción izquierda -->
       <div class="w-6 bg-red-500"></div>
-
       <div class="flex-1 p-4 text-gray-800 text-xl leading-relaxed tracking-tight">
-        {{producto.descripcion}}
+        {{ producto.descripcion }}
       </div>
-
-      <!-- Barra roja descripción derecha -->
       <div class="w-6 bg-red-500"></div>
     </div>
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/flowbite@latest/dist/flowbite.min.js"></script>
-
+<!-- FORMULARIO RESEÑA -->
 <div class="max-w-4xl mx-auto mt-10 bg-white p-6 rounded-2xl text-center font-pixel">
-  <h2 class="text-3xl mb-4">Escribe tu reseña</h2>
+  <h2 class="text-3xl mb-4">{{ editando ? 'Editar reseña' : 'Escribe tu reseña' }}</h2>
 
-  <div class="flex justify-center mb-4 text-4xl text-yellow-400">
-    <span>⭐</span>
-    <span>⭐</span>
-    <span>⭐</span>
-    <span>⭐</span>
-    <span>⭐</span>
+  <!-- Aca tenemos las estrellas para seleccionar -->
+  <div class="rating-stars flex justify-center mb-4 text-4xl gap-2">
+    <button type="button" (click)="setRating(1)" class="star-btn" [class.active]="selectedRating >= 1">★</button>
+    <button type="button" (click)="setRating(2)" class="star-btn" [class.active]="selectedRating >= 2">★</button>
+    <button type="button" (click)="setRating(3)" class="star-btn" [class.active]="selectedRating >= 3">★</button>
+    <button type="button" (click)="setRating(4)" class="star-btn" [class.active]="selectedRating >= 4">★</button>
+    <button type="button" (click)="setRating(5)" class="star-btn" [class.active]="selectedRating >= 5">★</button>
   </div>
 
-  <textarea
-    placeholder="Escribe aquí tu opinión..."
-    class="w-full border border-gray-300 rounded-lg p-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-    rows="3"
-  ></textarea>
 
-  <button
-    class="mt-4 bg-yellow-400 hover:bg-yellow-500 text-white px-6 py-2 rounded-lg font-concert transition"
-  >
-    Enviar reseña
+  <!-- Texto de la reseña -->
+  <div class="mb-3 max-w-3xl mx-auto">
+    <textarea
+      placeholder="Escribe aquí tu opinión..."
+      class="w-full border border-gray-300 rounded-lg p-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+      rows="4"
+      [(ngModel)]="formModel.comentario"
+      name="comentario"
+    ></textarea>
+  </div>
+
+  <!-- Botones: enviar o actualizar -->
+  <!-- Botón "Enviar reseña" con clase única y estrellas namespaced -->
+  <button class="review-star-btn" (click)="editando ? updateReview() : hacerReview()">
+    {{ editando ? 'Actualizar reseña' : 'Enviar reseña' }}
+
+    <div class="rs-star rs-star-1" aria-hidden="true">
+      <svg viewBox="0 0 784.11 815.53"><path class="rs-fil0"
+                                             d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78
+         207.96,29.37 371.12,197.68 392.05,407.74
+         20.93,-210.06 184.09,-378.37 392.05,-407.74
+         -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"></path></svg>
+    </div>
+
+    <div class="rs-star rs-star-2" aria-hidden="true">
+      <svg viewBox="0 0 784.11 815.53"><path class="rs-fil0"
+                                             d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78
+         207.96,29.37 371.12,197.68 392.05,407.74
+         20.93,-210.06 184.09,-378.37 392.05,-407.74
+         -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"></path></svg>
+    </div>
+
+    <div class="rs-star rs-star-3" aria-hidden="true">
+      <svg viewBox="0 0 784.11 815.53"><path class="rs-fil0"
+                                             d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78
+         207.96,29.37 371.12,197.68 392.05,407.74
+         20.93,-210.06 184.09,-378.37 392.05,-407.74
+         -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"></path></svg>
+    </div>
+
+    <div class="rs-star rs-star-4" aria-hidden="true">
+      <svg viewBox="0 0 784.11 815.53"><path class="rs-fil0"
+                                             d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78
+         207.96,29.37 371.12,197.68 392.05,407.74
+         20.93,-210.06 184.09,-378.37 392.05,-407.74
+         -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"></path></svg>
+    </div>
+
+    <div class="rs-star rs-star-5" aria-hidden="true">
+      <svg viewBox="0 0 784.11 815.53"><path class="rs-fil0"
+                                             d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78
+         207.96,29.37 371.12,197.68 392.05,407.74
+         20.93,-210.06 184.09,-378.37 392.05,-407.74
+         -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"></path></svg>
+    </div>
+
+    <div class="rs-star rs-star-6" aria-hidden="true">
+      <svg viewBox="0 0 784.11 815.53"><path class="rs-fil0"
+                                             d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78
+         207.96,29.37 371.12,197.68 392.05,407.74
+         20.93,-210.06 184.09,-378.37 392.05,-407.74
+         -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"></path></svg>
+    </div>
   </button>
 
+  <div *ngIf="errorMensaje" class="text-red-600 mt-3">{{ errorMensaje }}</div>
+
+  <!-- LISTA DE RESEÑAS -->
   <h2 class="text-3xl mt-10 mb-6">Reseñas</h2>
 
-  <div class="p-6 rounded-3xl flex justify-between items-start shadow-inner">
+  <div *ngIf="cargando" class="mb-4">Cargando reseñas...</div>
+
+  <div *ngIf="!cargando && opiniones.length === 0" class="mb-4">Aún no hay reseñas para este producto.</div>
+
+  <div *ngFor="let r of opiniones" class="p-6 rounded-3xl flex justify-between items-start shadow-inner mb-4">
     <div class="text-left">
-      <p class="font-bold text-lg mb-2">Marta</p>
-      <p class="text-gray-800">
-        Excelente peluche, la calidad es increíble y con un perfume exquisito
-      </p>
+      <p class="font-bold text-lg mb-1">Usuario</p>
+      <p class="text-gray-800 mb-2">{{ r.comentario }}</p>
+      <small class="text-gray-500">ID opinión: {{ r.id }}</small>
     </div>
-    <div class="text-yellow-400 text-xl">⭐⭐⭐⭐⭐</div>
+
+    <!-- estrellas visuales -->
+    <div class="review-stars text-xl mr-4">
+  <span *ngFor="let s of [1,2,3,4,5]">
+    <span class="star-display" [class.active]="(r.opinion ?? 0) >= s">★</span>
+  </span>
+    </div>
+
+
+    <!-- acciones -->
+    <div class="flex flex-col gap-2">
+      <button class="px-3 py-1 border rounded bg-white hover:bg-gray-100" (click)="editReview(r)">Editar</button>
+      <button class="px-3 py-1 border rounded bg-red-500 text-white hover:bg-red-600" (click)="deleteReview(r.id)">Eliminar</button>
+    </div>
   </div>
 </div>
-<app-footer></app-footer>
-</body>
 
+<app-footer></app-footer>

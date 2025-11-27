@@ -9,6 +9,7 @@ import {Comun} from './comun';
 })
 export class ProductoService {
   private apiUrl= 'http://localhost:8080/api/productos';
+
   constructor(private http: HttpClient, private comun: Comun) { }
 
   getProducto(): Observable<Producto[]> {
