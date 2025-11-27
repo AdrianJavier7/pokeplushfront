@@ -39,17 +39,27 @@
 
         <!-- ENLACES -->
         <div class="hidden md:flex items-center space-x-6 text-white text-base font-semibold">
-          <a href="/" class="hover:underline">Inicio</a>
+          <a routerLink="/" class="hover:underline">Inicio</a>
           <a routerLink="/productos" class="hover:underline">Pokedex</a>
-          <a href="/carrito" class="hover:underline">Carrito</a>
-          <a routerLink="/inicio-sesion"
-             class="px-4 py-2 bg-white rounded-md text-red-600 font-medium shadow-sm hover:shadow transition transform hover:scale-105 duration-200 text-base">
-            Inicio Sesión
-          </a>
-          <a routerLink="/registro"
-             class="px-4 py-2 bg-white rounded-md text-red-600 font-medium shadow-sm hover:shadow transition transform hover:scale-105 duration-200 text-base">
-            Registro
-          </a>
+          <a routerLink="/carrito" class="hover:underline">Carrito</a>
+
+          <ng-container *ngIf="!isAuthenticated">
+            <a routerLink="/inicio-sesion"
+               class="px-4 py-2 bg-white rounded-md text-red-600 font-medium shadow-sm hover:shadow transition transform hover:scale-105 duration-200 text-base">
+              Inicio Sesión
+            </a>
+            <a routerLink="/registro"
+               class="px-4 py-2 bg-white rounded-md text-red-600 font-medium shadow-sm hover:shadow transition transform hover:scale-105 duration-200 text-base">
+              Registro
+            </a>
+          </ng-container>
+
+          <ng-container *ngIf="isAuthenticated">
+            <button (click)="irPerfil()" class="flex items-center gap-3">
+              <img [src]="usuario?.foto || 'assets/fotoPerfilPredeterminada.png'"
+                   alt="Perfil" class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md cursor-pointer" />
+            </button>
+          </ng-container>
         </div>
       </div>
     </div>

@@ -49,7 +49,7 @@ export class InicioSesionComponent {
         sessionStorage.setItem('authToken', token);
         this.loginService.setAuthState(true);
 
-        this.router.navigate(['/principal']).catch(() => {
+        this.router.navigate(['/perfil']).catch(() => {
           alert('Login correcto.');
         });
       },
@@ -95,7 +95,7 @@ export class InicioSesionComponent {
               }
               sessionStorage.setItem('authToken', token);
               this.loginService.setAuthState(true);
-              this.router.navigate(['/principal']).catch(() => {
+              this.router.navigate(['/perfil']).catch(() => {
                 alert('Login correcto.');
               });
             },
