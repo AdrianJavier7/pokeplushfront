@@ -15,7 +15,6 @@ export class Comun {
        */
       'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),
     });
-
-    return {headers: headers}
+    return { headers: headers };
   }
 }

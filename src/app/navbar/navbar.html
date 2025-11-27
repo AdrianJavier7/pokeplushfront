@@ -1,43 +1,130 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Página Principal</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Página Principal - Hamburguesa móvil</title>
+
+  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+
   <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/flowbite@2.2.1/dist/flowbite.min.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.2.1/dist/flowbite.min.js"></script>
+
   <style>
-    body {
-      font-family: 'Pixelify Sans', sans-serif;
+    /* ---------- Animación SVG hamburguesa (adaptada) ---------- */
+    .hamburger { display: inline-block; }
+
+    /* ocultamos el checkbox */
+    .hamburger input { display: none; }
+
+    /* tamaño y transición del svg */
+    .hamburger label svg {
+      height: 2rem; /* tamaño del icono */
+      width: 2rem;
+      transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .line {
+      fill: none;
+      stroke: white;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 2.4;
+      transition:
+        stroke-dasharray 600ms cubic-bezier(0.4,0,0.2,1),
+        stroke-dashoffset 600ms cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .line-top-bottom { stroke-dasharray: 12 63; }
+
+    /* cuando el input está checked: rotar svg y cambiar trazos */
+    .hamburger input:checked + label svg {
+      transform: rotate(-45deg);
+    }
+
+    .hamburger input:checked + label svg .line-top-bottom {
+      stroke-dasharray: 20 300;
+      stroke-dashoffset: -32.42;
+    }
+
+    /* ---------- Menú móvil: transición con max-height (opcional) ---------- */
+    .mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 300ms ease, opacity 200ms ease;
+      opacity: 0;
+    }
+
+    /* cuando el checkbox está checked mostramos el menú */
+    .hamburger input:checked ~ .mobile-menu {
+      max-height: 480px; /* suficiente para contener los enlaces */
+      opacity: 1;
     }
   </style>
+
+
 </head>
-<body>
+<body class="bg-white">
 
 <header>
-  <nav class="bg-red-600 shadow-sm w-full">
-    <div class=" mx-auto px-6 md:px-12">
+  <!-- Añadí `relative` para que el .mobile-menu se posicione respecto al nav -->
+  <nav class="bg-red-600 shadow-sm w-full relative">
+    <div class="mx-auto px-6 ">
       <div class="flex items-center justify-between h-[76px]">
 
-        <!-- LOGO IZQUIERDA -->
+        <!-- LOGO -->
         <a href="/" class="flex items-center">
-          <img src="assets/LogoPokemon2.png" class="h-20 w-auto transition-transform duration-300 hover:rotate-6" />
+          <img src="assets/LogoPokemon2.png"
+               class="h-20 w-auto transition-transform duration-300 hover:rotate-6"
+               alt="Logo" />
         </a>
 
-        <!-- BOTON HAMBURGUESA -->
-        <button data-collapse-toggle="navbar-menu" type="button"
-                class="inline-flex items-center p-2 text-white md:hidden hover:bg-red-700 focus:outline-none"
-                aria-controls="navbar-menu" aria-expanded="false">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-               xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
+        <!-- HAMBURGUESA (solo en móvil) -->
+        <div class="md:hidden">
+          <div class="hamburger flex items-center">
+            <!-- Checkbox oculto que controla todo -->
+            <input id="menu-toggle" type="checkbox" aria-label="Abrir menú" />
 
-        <!-- ENLACES -->
+            <!-- Label con SVG animado -->
+            <label for="menu-toggle" class="ml-2 cursor-pointer" aria-hidden="true">
+              <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+                <path class="line line-top-bottom" d="M4 8h24M4 24h24"></path>
+                <path class="line" d="M4 16h24"></path>
+              </svg>
+            </label>
+
+            <!-- MENÚ RESPONSIVE (hermano del checkbox)
+                 Ahora está posicionado respecto al <nav> (parent .relative) -->
+            <div class="mobile-menu bg-red-600 absolute top-full left-0 right-0 z-40">
+              <div class="px-6 pb-6 space-y-2 text-white text-base font-semibold">
+                <a routerLink="/" class="block py-2 hover:underline">Inicio</a>
+                <a routerLink="/pokedex" class="block py-2 hover:underline">Pokedex</a>
+                <a routerLink="/carrito" class="block py-2 hover:underline">Carrito</a>
+
+                <ng-container *ngIf="!isAuthenticated">
+                  <a routerLink="/inicio-sesion"
+                     class="block py-2 bg-white text-red-600 rounded-md text-center font-medium">
+                    Inicio Sesión
+                  </a>
+                  <a routerLink="/registro"
+                     class="block py-2 bg-white text-red-600 rounded-md text-center font-medium">
+                    Registro
+                  </a>
+                </ng-container>
+
+                <ng-container *ngIf="isAuthenticated" class="pt-2">
+                  <button (click)="irPerfil()" class="flex items-center gap-3">
+                    <img [src]="usuario?.foto || 'assets/fotoPerfilPredeterminada.png'"
+                         alt="Perfil" class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md cursor-pointer" />
+                  </button>
+                </ng-container>
+              </div>
+            </div>
+            <!-- FIN mobile-menu -->
+          </div>
+        </div>
+
+        <!-- MENÚ DESKTOP -->
         <div class="hidden md:flex items-center space-x-6 text-white text-base font-semibold">
           <a routerLink="/" class="hover:underline">Inicio</a>
           <a routerLink="/productos" class="hover:underline">Pokedex</a>
@@ -61,21 +148,10 @@
             </button>
           </ng-container>
         </div>
-      </div>
-    </div>
 
-    <!-- MENÚ RESPONSIVE-->
-    <div class="hidden" id="navbar-menu">
-      <div class="px-6 pb-4 space-y-2 text-white text-base font-semibold md:hidden">
-        <a href="/" class="block py-2 hover:underline">Inicio</a>
-        <a href="/pokedex" class="block py-2 hover:underline">Pokedex</a>
-        <a href="/carrito" class="block py-2 hover:underline">Carrito</a>
-        <a href="/login" class="block py-2 bg-white text-red-600 rounded-md text-center">Inicio Sesión</a>
-        <a href="/registro" class="block py-2 bg-white text-red-600 rounded-md text-center">Registro</a>
       </div>
     </div>
   </nav>
 </header>
-
 </body>
 </html>
