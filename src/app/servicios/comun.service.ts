@@ -12,7 +12,7 @@ export class ComunService {
 
   autorizarPeticion() {
     const headers:HttpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
+      /*'Content-Type': 'application/json',*/
       'Authorization': 'Bearer ' + sessionStorage.getItem('authToken'),
     });
 

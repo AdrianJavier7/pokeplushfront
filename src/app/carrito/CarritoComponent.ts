@@ -6,10 +6,17 @@ import { Carrito } from '../modelos/Carrito';
 import { Producto } from '../modelos/Producto';
 import {ItemCarrito} from '../modelos/ItemCarrito';
 import {Item} from '../modelos/Item';
+import {Navbar} from '../navbar/navbar';
+import {Footer} from '../footer/footer';
+import {DecimalPipe} from '@angular/common';
 
 @Component({
   selector: 'app-carrito',
-  imports: [],
+  imports: [
+    Navbar,
+    Footer,
+
+  ],
   templateUrl: './carrito.html',
   styleUrls: ['./carrito.css'],
 })
@@ -72,6 +79,12 @@ export class CarritoComponent implements OnInit {
     return item?.cantidad ?? 0;
   }
 
+  obtenerPrecioTotalPorCantidadProducto(idProducto: number): number {
+    const producto = this.productosEnCarrito.find(p => p.id === idProducto);
+    const cantidad = this.obtenerCantidadProducto(idProducto);
+    return producto ? producto.precio! * cantidad : 0;
+  }
+
   finalizarCompra() {
     this.carritoService.finalizarCarrito().subscribe({
       next: (data) => {
@@ -82,6 +95,10 @@ export class CarritoComponent implements OnInit {
         console.error('Error al finalizar compra:', err);
       }
     });
+  }
+
+  anyadirProducto(idProducto: number) {
+
   }
 
   calcularTotal(): number {
