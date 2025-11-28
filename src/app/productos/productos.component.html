@@ -9,60 +9,59 @@
 <header>
   <app-navbar></app-navbar>
 </header>
-  <div class="bg-red-600 border-1 border-black rounded-xl p-4 w-full shadow-lg relative">
-    <div class="flex items-center gap-2">
+  <div class="bg-red-600 rounded-xl p-4 max-w-6xl mx-auto m-4 shadow-lg relative">
+    <div class="flex items-center gap-2 m-2 mb-4">
       <!-- Botón circular -->
-      <div class="w-6 h-6 bg-red-900 border-2 border-black rounded-full shadow-inner"></div>
+      <div class="w-12 h-12 ml-2 bg-blue-900 border-2 border-gray-200 rounded-full shadow-inner animacion-brillo-pokedex"></div>
 
       <!-- Indicadores verticales -->
       <div class="flex flex-col gap-1">
-        <div class="w-2 h-2 rounded-full bg-red-500 border border-black"></div>
-        <div class="w-2 h-2 rounded-full bg-yellow-300 border border-black"></div>
-        <div class="w-2 h-2 rounded-full bg-green-500 border border-black"></div>
+        <div class="w-4 h-4 rounded-full bg-red-500 border border-red-700"></div>
+        <div class="w-4 h-4 rounded-full bg-yellow-300 border border-yellow-500"></div>
+        <div class="w-4 h-4 rounded-full bg-green-500 border border-green-700"></div>
       </div>
-      <h1 class="ml-auto text-white font-bold text-lg text-right tracking-wide text-">POKÉDEX</h1>
-
+      <h1 class="ml-auto text-white font-bold text-4xl text-right tracking-wide text-">POKÉDEX</h1>
     </div>
 
     <div class="bg-gray-100 rounded-lg p-4 mb-4">
       <div class="bg-gray-700 rounded-lg p-4 mb-4">
         <div class="bg-gray-900 rounded-lg p4 mb-4">
           <div class="flex items-center gap-2 mb-4">
-            <input type="text"
+            <input [(ngModel)]="busqueda"
                    placeholder="Buscar pokémon..."
-                   class="w-full bg-[#1e1e1e] text-gray-300 placeholder-gray-400 rounded-full pl-10 py-2 text-sm focus:outline focus:ring-2 focus:ring-red-500">
+                   class="w-full bg-[#1e1e1e] text-gray-300 placeholder-gray-400 rounded-full pl-10 py-2 text-sm focus:outline focus:ring-2 focus:ring-green-400 m-2">
+            <button (click)="buscar()">Buscar</button>
           </div>
           <div class="relative inline-block text-left" id="dropdown-container">
-            <button
-              id="dropdown-button"
-              onclick="toggleDropdown()"
-              class="inline-flex items-center justify-center gap-1 bg-[#1e1e1e] text-green-400 py-2 text-sm rounded-md hover:bg-[#2a2a2a] focus:outline-none focus:ring-green-500">
-              ↑↓ Orden Alfabético
-              <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <button (click)="toggleDropdown()" class="inline-flex items-center justify-center gap-1 bg-[#1e1e1e] text-green-400 py-2 text-sm rounded-md hover:bg-[#2a2a2a] focus:outline-none focus:ring-green-500 ml-3 mb-2">
+              {{ selectedOption }}
+              <svg class="w-4 h-4 text-green-400 ml-1 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
               </svg>
             </button>
 
             <!-- Menú desplegable -->
-            <div id="dropdown-menu" class="absolute z-10 mt-2 w-48 origin-top-right rounded-md bg-[#1e1e1e] shadow-lg ring-1 ring-black ring-opacity-5 hidden">
+            <div *ngIf="menuVisible"
+                 class="absolute z-10 mt-2 w-48 origin-top-right rounded-md bg-[#1e1e1e] shadow-lg ring-1 ring-black ring-opacity-5">
               <div class="py-1 text-green-400 text-sm">
-                <button onclick="selectOption('Orden Alfabético')" class="block w-full px-4 py-2 text-left hover:bg-[#2a2a2a]">Orden Alfabético</button>
-                <button onclick="selectOption('Precio: Menor a mayor')" class="block w-full px-4 py-2 text-left hover:bg-[#2a2a2a]">Precio: Menor a Mayor</button>
-                <button onclick="selectOption('Precio: Mayor a menor')" class="block w-full px-4 py-2 text-left hover:bg-[#2a2a2a]">Precio: Mayor a Menor</button>
-                <button onclick="selectOption('Más valorados')" class="block w-full px-4 py-2 text-left hover:bg-[#2a2a2a]">Más Valorados</button>
+                <button (click)="selectOption('Orden Alfabético')" class="block w-full px-4 py-2 text-left hover:bg-[#2a2a2a]">Orden Alfabético</button>
+                <button (click)="selectOption('Precio: Menor a mayor')" class="block w-full px-4 py-2 text-left hover:bg-[#2a2a2a]">Precio: Menor a Mayor</button>
+                <button (click)="selectOption('Precio: Mayor a menor')" class="block w-full px-4 py-2 text-left hover:bg-[#2a2a2a]">Precio: Mayor a Menor</button>
+                <button (click)="selectOption('Más valorados')" class="block w-full px-4 py-2 text-left hover:bg-[#2a2a2a]">Más Valorados</button>
               </div>
-            </div>          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             <div *ngFor="let producto of productos"
-                 class="bg-[#0c1c3c] rounded-lg p-4 shadow-md border border-transparent transition-all duration-300 hover:bg-[#1a2e5c] hover:border-gray-300 hover:shadow-xl cursor-pointer"
+                 class="bg-[#0c1c3c] rounded-lg p-4 shadow-md border border-transparent transition-all duration-300 hover:bg-[#1a2e5c] hover:border-gray-300 hover:shadow-xl cursor-pointer m-3"
                  [routerLink]="['/productos', producto.id]"
             >
               <div class="bg-gray-100 rounded-md overflow-hidden mb-3 aspect-square">
-                <img [src]="producto.foto ? 'data:image/jpeg;base64,' + producto.foto : 'assets/default.jpg'" [alt]="producto.nombre" class="object-cover w-full h-full"/>
+                <img [src]="producto.foto" [alt]="producto.nombre" class="object-cover w-full h-full"/>
               </div>
               <h2 class="text-white font-bold text-lg">{{producto.nombre}}</h2>
-              <p class="text-red-400 text-sm">Tipo: {{producto.tipo}}</p>
-              <p class="text-white font-semibold mt-2">{{producto.precio}} €</p>
+              <p class="text-red-400 text-sm">Tipo/s: {{producto.tipo}} {{producto.tipo2}}</p>
+              <p class="text-white mt-2 font-concert">{{producto.precio}} €</p>
               <p class="text-yellow-300 text-sm">⭐ 4.5</p>
             </div>
           </div>
@@ -70,33 +69,6 @@
       </div>
     </div>
   </div>
-
-  <script>
-    function toggleDropdown() {
-      const menu = document.getElementById("dropdown-menu");
-      menu.classList.toggle("hidden");
-    }
-
-    function selectOption(text) {
-      const button = document.getElementById("dropdown-button");
-      // Actualiza el texto del botón y mantiene el icono
-      button.innerHTML = `${text}
-      <svg class="w-4 h-4 text-green-400 ml-1 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
-      </svg>`;
-      // Cierra el menú
-      document.getElementById("dropdown-menu").classList.add("hidden");
-    }
-
-    // Cierra el menú si haces clic fuera
-    document.addEventListener("click", function (e) {
-      const container = document.getElementById("dropdown-container");
-      const menu = document.getElementById("dropdown-menu");
-      if (!container.contains(e.target)) {
-        menu.classList.add("hidden");
-      }
-    });
-  </script>
 
 <app-footer></app-footer>
 

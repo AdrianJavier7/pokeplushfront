@@ -25,7 +25,32 @@ export class ProductoService {
   }
 
   getProductoPorId(id: number): Observable<Producto> {
-    return this.http.get<Producto>(`${this.apiUrl}/${id}`, this.comun.autorizarPeticion());
+    return this.http.get<Producto>(`${this.apiUrl}/${id}`,
+    this.comun.autorizarPeticion());
   }
 
+  crearProducto(producto:Producto, file?:File): Observable<Producto>{
+    const formData = new FormData();
+    formData.append('producto', new Blob([JSON.stringify(producto)], { type: 'application/json' }));
+    if (file) {
+      formData.append('foto', file);
+    }
+    return this.http.post<Producto>(`${this.apiUrl}/crear`, formData, this.comun.autorizarPeticion());
+  }
+
+  listarAlfabetico(): Observable<Producto[]> {
+    return this.http.get<Producto[]>(`${this.apiUrl}/orden/alfabetico`);
+  }
+
+  listarPrecioAsc(): Observable<Producto[]> {
+    return this.http.get<Producto[]>(`${this.apiUrl}/orden/precio/asc`);
+  }
+
+  listarPrecioDesc(): Observable<Producto[]> {
+    return this.http.get<Producto[]>(`${this.apiUrl}/orden/precio/desc`);
+  }
+
+  buscarPorNombre(nombre:string): Observable<Producto[]> {
+    return this.http.get<Producto[]>(`${this.apiUrl}/productos/buscar?nombre=${nombre}`);
+  }
 }

@@ -50,5 +50,13 @@ export const routes: Routes = [
     path: 'perfil',
     loadComponent: () => import('./perfil/perfil.component').then((m) => m.PerfilComponent),
   },
+  {
+    path: 'productos-admin',
+    loadComponent: () => import('./productos-admin/productos-admin').then((m) => m.ProductosAdmin),
+  },
+  {
+    path: 'crear-producto',
+    loadComponent:() => import('./crear-productos/crear-productos').then((m) => m.CrearProductos),
+  },
   { path: '**', redirectTo: 'productos' },
 ];

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PokePlush</title>
+</head>
+<body class="bg-white font-pixel">
+<header>
+  <app-navbar></app-navbar>
+</header>
+<div class="justify-center mt-10">
+  <form (ngSubmit)="crearProducto()" #productoForm="ngForm" class="flex flex-col w-full max-w-md mx-auto mt-10 shadow-lg rounded-xl p-6">
+    <label>Nombre</label>
+    <input type="text" [(ngModel)]="nuevoProducto.nombre" name="nombre" placeholder="Nombre" required class="mb-5 rounded-full">
+    <label>Descripción</label>
+    <input type="text" [(ngModel)]="nuevoProducto.descripcion" name="descripcion" placeholder="Descripción" required class="mb-5 rounded-full">
+    <label>Precio</label>
+    <input type="number" [(ngModel)]="nuevoProducto.precio" name="precio" placeholder="Precio" required class="mb-5 rounded-full">
+    <!--Para tipo-->
+    <label>Tipo 1</label>
+    <select [(ngModel)]="nuevoProducto.tipo" name="tipo" required class="mb-5 rounded-full">
+      <option value="NORMAL">Normal</option>
+      <option value="FUEGO">Fuego</option>
+      <option value="AGUA">Agua</option>
+      <option value="ELECTRICO">Eléctrico</option>
+      <option value="PLANTA">Planta</option>
+      <option value="HIELO">Hielo</option>
+      <option value="LUCHA">Lucha</option>
+      <option value="VENENO">Veneno</option>
+      <option value="TIERRA">Tierra</option>
+      <option value="VOLADOR">Volador</option>
+      <option value="PSIQUICO">Psiquico</option>
+      <option value="BICHO">Bicho</option>
+      <option value="ROCA">Roca</option>
+      <option value="FANTASMA">Fantasma</option>
+      <option value="DRAGON">Dragón</option>
+      <option value="SINIESTRO">Siniestro</option>
+      <option value="ACERO">Acero</option>
+      <option value="HADA">Hada</option>
+    </select>
+
+    <!--Para tipo2-->
+    <label>Tipo 2</label>
+    <select [(ngModel)]="nuevoProducto.tipo2" name="tipo2" class="mb-5 rounded-full">
+      <option value="NORMAL">Normal</option>
+      <option value="FUEGO">Fuego</option>
+      <option value="AGUA">Agua</option>
+      <option value="ELECTRICO">Eléctrico</option>
+      <option value="PLANTA">Planta</option>
+      <option value="HIELO">Hielo</option>
+      <option value="LUCHA">Lucha</option>
+      <option value="VENENO">Veneno</option>
+      <option value="TIERRA">Tierra</option>
+      <option value="VOLADOR">Volador</option>
+      <option value="PSIQUICO">Psiquico</option>
+      <option value="BICHO">Bicho</option>
+      <option value="ROCA">Roca</option>
+      <option value="FANTASMA">Fantasma</option>
+      <option value="DRAGON">Dragón</option>
+      <option value="SINIESTRO">Siniestro</option>
+      <option value="ACERO">Acero</option>
+      <option value="HADA">Hada</option>
+    </select>
+
+    <label>Stock</label>
+    <input type="number" [(ngModel)]="nuevoProducto.stock" name="precio" placeholder="Stock" required class="mb-5 rounded-full">
+
+    <!--Para la foto-->
+    <input type="file" (change)="onFileSelected($event)">
+
+    <button type="submit" class="bg-red-600 text-white mt-10 py-3 rounded-full font-bold shadow-md hover:bg-red-700 transition">Atrapar pokemon</button>
+  </form>
+</div>
+<app-footer></app-footer>
+</body>

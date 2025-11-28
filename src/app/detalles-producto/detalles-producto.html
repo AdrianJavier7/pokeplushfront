@@ -6,16 +6,19 @@
 
 <!-- DETALLE DEL PRODUCTO -->
 <div *ngIf="producto" class="max-w-4xl mx-auto bg-white p-6 flex flex-col md:flex-row gap-6 text-sm leading-relaxed tracking-tight">
+
   <div class="flex-shrink-0">
-    <img src="../../assets/descarga.jpg" alt="Peluche" class="w-80 h-auto rounded-lg" />
+    <img [src]="producto.foto" [alt]="producto.nombre" class="w-80 h-auto rounded-lg"/>
   </div>
 
   <div class="flex-1">
+    <!-- Nombre producto -->
     <div class="flex items-center gap-4 mt-2">
       <h1 class="text-3xl text-gray-800 flex items-center gap-2">
-        {{ producto.nombre }}
+        {{producto.nombre}}
       </h1>
-      <img src="../../assets/agua.png" alt="tipo" class="w-7 h-auto" />
+      <img *ngIf="producto?.tipo" [src]="iconosTipo[producto.tipo!]" [alt]="producto.tipo" class="w-7 h-auto">
+      <img *ngIf="producto?.tipo2" [src]="iconosTipo[producto.tipo2!]" [alt]="producto.tipo2" class="w-7 h-auto">
     </div>
 
     <p class="text-yellow-500 mt-2 text-xs font-concert">
@@ -23,17 +26,23 @@
     </p>
 
     <div class="flex items-center gap-4 mt-2">
-      <p class="text-gray-800 text-4xl font-concert">{{ producto.precio }}€</p>
+      <p class="text-gray-800 text-4xl font-concert">{{producto.precio}}€</p>
       <button class="w-10 h-10 flex items-center justify-center rounded-full bg-red-500 shadow-md hover:bg-red-600">
         <img src="assets/icons8-carro-de-la-compra-48.png" alt="Carrito" class="w-5 h-5" />
       </button>
     </div>
 
+
+
     <div class="mt-4 flex items-stretch bg-white shadow-lg rounded-md overflow-hidden border border-black">
+      <!-- Barra roja descripción izquierda -->
       <div class="w-6 bg-red-500"></div>
+
       <div class="flex-1 p-4 text-gray-800 text-xl leading-relaxed tracking-tight">
-        {{ producto.descripcion }}
+        {{producto.descripcion}}
       </div>
+
+      <!-- Barra roja descripción derecha -->
       <div class="w-6 bg-red-500"></div>
     </div>
   </div>
@@ -149,5 +158,5 @@
     </div>
   </div>
 </div>
-
 <app-footer></app-footer>
+

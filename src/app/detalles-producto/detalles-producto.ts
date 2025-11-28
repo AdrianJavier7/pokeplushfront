@@ -15,7 +15,6 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule, Navbar, Footer]
 })
 export class DetallesProducto implements OnInit {
-
   producto!: Producto;
 
   constructor(
@@ -184,4 +183,26 @@ export class DetallesProducto implements OnInit {
     const suma = opinionesProducto.reduce((acc, op) => acc + (op.opinion || 0), 0);
     return suma / opinionesProducto.length;
   }
+  iconosTipo: {[key:string] :string} = {
+    NORMAL: '../assets/Tipo/normal.png',
+    FUEGO: '../assets/Tipo/fuego.png',
+    AGUA: '../assets/Tipo/agua.png',
+    ELECTRICO: '../assets/Tipo/electrico.png',
+    PLANTA: '../assets/Tipo/planta.png',
+    HIELO: '../assets/Tipo/hielo.png',
+    LUCHA: '../assets/Tipo/lucha.png',
+    VENENO: '../assets/Tipo/veneno.png',
+    TIERRA: '../assets/Tipo/tierra.png',
+    VOLADOR: '../assets/Tipo/volador.png',
+    PSIQUICO: '../assets/Tipo/psiquico.png',
+    BICHO: '../assets/Tipo/bicho.png',
+    ROCA: '../assets/Tipo/roca.png',
+    FANTASMA: '../assets/Tipo/fantasma.png',
+    DRAGON: '../assets/Tipo/dragon.png',
+    SINIESTRO: '../assets/Tipo/siniestro.png',
+    ACERO: '../assets/Tipo/acero.png',
+    HADA: '../assets/Tipo/hada.png'
+
+  }
+
 }

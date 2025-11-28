@@ -5,6 +5,7 @@ import {ProductoService} from '../servicios/ProductoService';
 import {RouterLink} from '@angular/router';
 import {Navbar} from '../navbar/navbar';
 import {Footer} from '../footer/footer';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-productos',
@@ -13,6 +14,7 @@ import {Footer} from '../footer/footer';
     CommonModule,
     Navbar,
     Footer,
+    FormsModule,
   ],
 
   templateUrl: './productos.component.html'
@@ -34,5 +36,36 @@ export class ProductosComponent implements OnInit {
     });
   }
 
+  menuVisible = false;
+  selectedOption = 'Orden Alfabético';
+
+  toggleDropdown() {
+    this.menuVisible = !this.menuVisible;
+  }
+
+  selectOption(text: string) {
+    this.selectedOption = text;
+    this.menuVisible = false;
+
+    switch (text) {
+      case 'Orden Alfabético':
+        this.productosService.listarAlfabetico().subscribe(data => this.productos = data);
+        break;
+
+      case 'Precio: Menor a mayor':
+        this.productosService.listarPrecioAsc().subscribe(data => this.productos = data);
+        break;
+
+      case 'Precio: Mayor a menor':
+        this.productosService.listarPrecioDesc().subscribe(data => this.productos = data);
+        break;
+    }
+  }
+
+  busqueda: string = '';
+
+  buscar(){
+    this.productosService.buscarPorNombre(this.busqueda).subscribe(data => {this.productos = data});
+  }
 
 }

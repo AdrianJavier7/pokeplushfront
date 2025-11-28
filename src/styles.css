@@ -129,3 +129,17 @@
 .estiloLetra{
   font-family: "Pixelify Sans", Helvetica, sans-serif;
 }
+
+@keyframes brillo-pokedex {
+  0%, 100% {
+    background-color: #1e3a8a;
+  }
+  50% {
+    background-color: #4169E1;
+  }
+
+}
+
+.animacion-brillo-pokedex {
+  animation: brillo-pokedex 3s ease-in-out infinite;
+}
