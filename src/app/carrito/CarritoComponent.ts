@@ -98,7 +98,15 @@ export class CarritoComponent implements OnInit {
   }
 
   anyadirProducto(idProducto: number) {
-
+      this.carritoService.anyadirProductoCarrito(idProducto).subscribe({
+        next: (data) => {
+          console.log('Producto añadido:', data);
+          this.ngOnInit(); // Recargar el carrito después de añadir el producto
+        },
+        error: (err) => {
+          console.error('Error al añadir producto:', err);
+        }
+      })
   }
 
   calcularTotal(): number {
