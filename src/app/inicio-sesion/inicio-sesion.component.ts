@@ -1,14 +1,18 @@
 import { Component } from '@angular/core';
 import {Login} from '../modelos/Login';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {LoginService} from '../servicios/login.service';
 import {RegistroService} from '../servicios/registro.service';
+import {NgClass, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-inicio-sesion',
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgIf,
+    NgClass,
+    FormsModule
   ],
   templateUrl: './inicio-sesion.component.html',
   styleUrl: './inicio-sesion.component.css'
@@ -17,6 +21,19 @@ export class InicioSesionComponent {
   loginForm: FormGroup;
   login: Login = new Login();
   private pendingLogin?: Login;
+
+  alertaVisible = false;
+  alertaMensaje = '';
+  alertaTipo: 'success' | 'error' = 'success';
+
+  promptVisible = false;
+  promptTitulo = '';
+  promptMensaje = '';
+  promptPlaceholder = '';
+  promptInputType = 'text';
+  promptValor: string = '';
+  promptTipo: 'input' | 'confirm' = 'input';
+  private promptResolver: ((value: string | null) => void) | null = null;
 
   constructor(private formBuilder: FormBuilder, private loginService: LoginService, private router: Router) {
     this.loginForm = this.formBuilder.group({
@@ -27,7 +44,7 @@ export class InicioSesionComponent {
 
   hacerLogin() {
     if (this.loginForm.invalid) {
-      alert('Por favor complete el formulario correctamente.');
+      this.mostrarAlerta('Por favor complete el formulario correctamente.', 'error');
       return;
     }
 
@@ -42,7 +59,7 @@ export class InicioSesionComponent {
       next: (res) => {
         const token = res?.token || res?.accessToken || res?.jwt || res?.data?.token;
         if (!token) {
-          alert('Respuesta inválida. No está registrado.');
+          this.mostrarAlerta('Respuesta inválida. No está registrado.', 'error');
           return;
         }
 
@@ -50,117 +67,155 @@ export class InicioSesionComponent {
         this.loginService.setAuthState(true);
 
         this.router.navigate(['/perfil']).catch(() => {
-          alert('Login correcto.');
+          this.mostrarAlerta('Login correcto.', 'success');
         });
       },
       error: (err) => {
         const errMsg = (err?.error?.message || err?.message || '').toString().toLowerCase();
         if (errMsg.includes('verif') || err?.status === 403) {
-          alert('Tienes que verificar primero tu cuenta, revisa tu correo');
+          this.mostrarAlerta('Tienes que verificar primero tu cuenta, revisa tu correo', 'error');
           this.solicitarVerificacion(loginPayload.email, true);
           return;
         }
 
-        alert(`Error: ${err?.error?.message || err?.message || 'Error en el login'}`);
+        this.mostrarAlerta(`Error: ${err?.error?.message || err?.message || 'Error en el login'}`, 'error');
       }
     });
   }
 
-  solicitarVerificacion(email?: string, reintentarDespues = false) {
+  async solicitarVerificacion(email?: string, reintentarDespues = false) {
     let correo = email || this.loginForm.value.email;
     if (!correo) {
-      correo = window.prompt('Introduce tu correo electrónico para verificar la cuenta:') || '';
+      correo = await this.mensajePrompt('Verificar Cuenta', 'Introduce tu correo electrónico para verificar tu cuenta:', 'correo@ejemplo.com', 'text') || '';
       if (!correo) {
-        alert('Se necesita un correo para verificar la cuenta.');
+        this.mostrarAlerta('Se necesita un correo para verificar la cuenta.', 'error');
         return;
       }
     }
 
-    const codigo = window.prompt('Introduce el código de verificación que recibiste en el registro:') || '';
+    const codigo = await this.mensajePrompt('Código de Verificación', 'Introduce el código que recibiste en tu correo:', 'Ej: 123456', 'text');
     if (!codigo) {
-      alert('No introdujiste ningún código.');
+      this.mostrarAlerta('No introdujiste ningún código.', 'error');
       return;
     }
 
     this.loginService.verificarCodigo({ email: correo, codigo }).subscribe({
       next: () => {
-        alert('Cuenta verificada correctamente.');
+        this.mostrarAlerta('Cuenta verificada correctamente.', 'success');
         if (reintentarDespues && this.pendingLogin) {
           this.loginService.loguearUsuario(this.pendingLogin).subscribe({
             next: (res) => {
               const token = res?.token || res?.accessToken || res?.jwt || res?.data?.token;
               if (!token) {
-                alert('Verificado, pero no se recibió token al intentar iniciar sesión.');
+                this.mostrarAlerta('Verificado, pero no se recibió token al intentar iniciar sesión.', 'error');
                 return;
               }
               sessionStorage.setItem('authToken', token);
               this.loginService.setAuthState(true);
               this.router.navigate(['/perfil']).catch(() => {
-                alert('Login correcto.');
+                this.mostrarAlerta('Login correcto.', 'success');
               });
             },
             error: (err: any) => {
-              alert(`Error al iniciar sesión tras verificar: ${err?.error?.message || err?.message || err}`);
+              this.mostrarAlerta(`Error al iniciar sesión tras verificar: ${err?.error?.message || err?.message || err}`, 'error');
             }
           });
         }
       },
       error: (err: any) => {
         if (err.status === 400) {
-          alert('El código es incorrecto');
+          this.mostrarAlerta('El código o el correo son incorrecto', 'error');
           return;
         }
 
         const mensaje = err?.error?.message || err?.message || 'Error al verificar el código';
-        alert(`Error: ${mensaje}`);
+        this.mostrarAlerta(`Error: ${mensaje}`, 'error');
       }
     });
   }
 
-  recuperarContrasena() {
-    let correo = this.loginForm.value.email || window.prompt('Introduce tu correo electrónico para recuperar la contraseña:') || '';
+  async recuperarContrasena(email?: string) {
+    let correo = email || this.loginForm.value.email;
     if (!correo) {
-      alert('Se necesita un correo para recuperar la contraseña.');
-      return;
+      correo = await this.mensajePrompt('Verificar Cuenta', 'Introduce tu correo electrónico para verificar tu cuenta:', 'correo@ejemplo.com', 'text') || '';
+      if (!correo) {
+        this.mostrarAlerta('Se necesita un correo para verificar la cuenta.', 'error');
+        return;
+      }
     }
 
     this.loginService.enviarCodigoRecuperacion(correo).subscribe({
-      next: () => {
-        alert('Correo enviado con código de recuperación.');
-        const codigo = window.prompt('Introduce el código de recuperación que recibiste:') || '';
+      next: async () => {
+        this.mostrarAlerta('Correo enviado con código de recuperación.', 'success');
+        const codigo = await this.mensajePrompt('Código de Verificación', 'Introduce el código que recibiste en tu correo:', 'Ej: 123456', 'text');
         if (!codigo) {
-          alert('No introdujiste código.');
+          this.mostrarAlerta('No introdujiste código.', 'error');
           return;
         }
-        const nueva = window.prompt('Introduce la nueva contraseña:') || '';
+        const nueva = await this.mensajePrompt('Nueva contraseña', 'Introduce la nueva contraseña:', '******', 'password');
         if (!nueva) {
-          alert('No introdujiste la nueva contraseña.');
+          this.mostrarAlerta('No introdujiste la nueva contraseña.', 'error');
           return;
         }
-        const confirmar = window.prompt('Confirma la nueva contraseña:') || '';
+        const confirmar = await this.mensajePrompt('Confirmar contraseña', 'Vuelve a escribir la nueva contraseña:', '******', 'password');
         if (nueva !== confirmar) {
-          alert('Las contraseñas no coinciden.');
+          this.mostrarAlerta('Las contraseñas no coinciden.', 'error');
           return;
         }
 
         this.loginService.cambiarContrasena({ email: correo, codigo, nuevaPassword: nueva }).subscribe({
           next: () => {
-            alert('Contraseña actualizada correctamente. Ya puedes iniciar sesión.');
+            this.mostrarAlerta('Contraseña actualizada correctamente. Ya puedes iniciar sesión.', 'success');
           },
           error: (err: any) => {
             if (err?.status === 400) {
-              alert('Código inválido o petición incorrecta.');
+              this.mostrarAlerta('Código inválido o petición incorrecta.');
               return;
             }
             const mensaje = err?.error?.message || err?.message || 'Error al cambiar la contraseña';
-            alert(`Error: ${mensaje}`);
+            this.mostrarAlerta(`Error: ${mensaje}`, 'error');
           }
         });
       },
       error: (err: any) => {
         const mensaje = err?.error?.message || err?.message || 'Error al enviar el código de recuperación';
-        alert(`Error: ${mensaje}`);
+        this.mostrarAlerta(`Error: ${mensaje}`, 'error');
       }
     });
+  }
+
+  mostrarAlerta(mensaje: string, tipo: 'success' | 'error' = 'success') {
+    this.alertaMensaje = mensaje;
+    this.alertaTipo = tipo;
+    this.alertaVisible = true;
+
+    setTimeout(() => {
+      this.alertaVisible = false;
+    }, 3500);
+  }
+
+  mensajePrompt(titulo: string, mensaje: string, placeholder = '', inputType: 'text' | 'password' = 'text'): Promise<string | null> {
+    this.promptTitulo = titulo;
+    this.promptMensaje = mensaje;
+    this.promptPlaceholder = placeholder;
+    this.promptInputType = inputType;
+    this.promptTipo = 'input';
+    this.promptValor = '';
+
+    this.promptVisible = true;
+
+    return new Promise((respuesta) => {
+      this.promptResolver = respuesta;
+    });
+  }
+
+  confirmarPrompt() {
+    if (this.promptResolver) this.promptResolver(this.promptValor);
+    this.promptVisible = false;
+  }
+
+  cancelarPrompt() {
+    if (this.promptResolver) this.promptResolver(null);
+    this.promptVisible = false;
   }
 }

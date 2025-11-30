@@ -6,6 +6,7 @@ import {PerfilService} from '../servicios/perfil.service';
 import {Usuario} from '../modelos/Usuario';
 import {Router} from '@angular/router';
 import {LoginService} from '../servicios/login.service';
+import {NgClass, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-perfil',
@@ -14,6 +15,8 @@ import {LoginService} from '../servicios/login.service';
     Navbar,
     FormsModule,
     FormsModule,
+    NgIf,
+    NgClass,
   ],
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.css'
@@ -23,6 +26,11 @@ export class PerfilComponent implements OnInit {
   fotoElegida ?: File;
   preevistaImagen: string | ArrayBuffer | null = null;
   telefonoValido = true;
+
+  alertaVisible = false;
+  alertaMensaje = '';
+  alertaTipo: 'success' | 'error' = 'success';
+  mostrarConfirmarCerrar = false;
 
   constructor(private perfilService: PerfilService, private loginService: LoginService, private router: Router) {}
 
@@ -54,12 +62,18 @@ export class PerfilComponent implements OnInit {
   guardarCambios(): void {
     this.telefonoValido = this.validarTelefono();
     if (!this.telefonoValido) {
-      alert('El teléfono debe tener exactamente 9 dígitos y deben ser números.');
+      this.mostrarAlerta(
+        'El teléfono debe tener exactamente 9 dígitos.',
+        'error'
+      );
       return;
     }
 
     if (!this.validarFechaNacimiento()) {
-      alert('La fecha de nacimiento debe ser anterior o igual a la fecha de hoy.');
+      this.mostrarAlerta(
+        'La fecha de nacimiento debe ser válida y no puede ser futura.',
+        'error'
+      );
       return;
     }
 
@@ -75,9 +89,12 @@ export class PerfilComponent implements OnInit {
         }
         this.usuario = u;
         this.preevistaImagen = null;
-        alert('Perfil actualizado');
+        this.mostrarAlerta('Perfil actualizado correctamente.', 'success');
       },
-      error: err => console.error('Error al actualizar perfil:', err)
+      error: err => {
+        console.error(err);
+        this.mostrarAlerta('Hubo un error actualizando el perfil.', 'error');
+      }
     });
   }
 
@@ -117,11 +134,34 @@ export class PerfilComponent implements OnInit {
     return dateStr;
   }
 
+  mostrarAlerta(mensaje: string, tipo: 'success' | 'error' = 'success') {
+    this.alertaMensaje = mensaje;
+    this.alertaTipo = tipo;
+    this.alertaVisible = true;
+
+    setTimeout(() => {
+      this.alertaVisible = false;
+    }, 3500);
+  }
+
   cerrarSesion(): void {
     sessionStorage.removeItem('authToken');
     this.loginService.setAuthState(false);
     this.perfilService.setUsuario(undefined);
     this.router.navigate(['/inicio-sesion']);
+  }
+
+  confirmarCerrarSesion() {
+    this.mostrarConfirmarCerrar = true;
+  }
+
+  cancelarCerrar() {
+    this.mostrarConfirmarCerrar = false;
+  }
+
+  cerrarSesionConfirmado() {
+    this.mostrarConfirmarCerrar = false;
+    this.cerrarSesion();
   }
 
   irPedidos(): void {

@@ -15,6 +15,18 @@
   </style>
 </head>
 <body class="bg-[#D70C0C]">
+<div *ngIf="alertaVisible" class="fixed top-6 right-6 z-50">
+  <div class="flex items-center p-4 mb-4 rounded-lg shadow-lg w-80" [ngClass]="{'bg-green-100 text-green-800 border border-green-300': alertaTipo === 'success','bg-red-100 text-red-800 border border-red-300': alertaTipo === 'error'}" role="alert">
+    <svg aria-hidden="true" class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+      <path *ngIf="alertaTipo === 'success'" d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 1 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 1 1 1.414 1.414Z"/>
+      <path *ngIf="alertaTipo === 'error'" d="M10 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8Zm1-11a1 1 0 0 0-2 0v3a1 1 0 0 0 2 0Zm0 5a1 1 0 1 0-2 0 1 1 0 0 0 2 0Z"/>
+    </svg>
+
+    <span class="font-medium">{{ alertaMensaje }}</span>
+
+    <button type="button" class="ml-auto text-xl leading-none hover:text-black px-2" (click)="alertaVisible = false">×</button>
+  </div>
+</div>
 <div class="min-h-screen bg-[#D70C0C] flex items-center">
   <div class="w-full max-w-8xl mx-auto grid grid-cols-1 md:grid-cols-2 divide-x-0 md:divide-x-4 md:divide-white py-16">
 

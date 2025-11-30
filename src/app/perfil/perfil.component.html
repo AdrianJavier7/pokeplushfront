@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Página Principal</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -14,6 +12,30 @@
   </style>
 </head>
 <body>
+<div *ngIf="alertaVisible" class="fixed top-6 right-6 z-50">
+  <div class="flex items-center p-4 mb-4 rounded-lg shadow-lg w-80" [ngClass]="{'bg-green-100 text-green-800 border border-green-300': alertaTipo === 'success','bg-red-100 text-red-800 border border-red-300': alertaTipo === 'error'}" role="alert">
+    <svg aria-hidden="true" class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+      <path *ngIf="alertaTipo === 'success'" d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 1 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 1 1 1.414 1.414Z"/>
+      <path *ngIf="alertaTipo === 'error'" d="M10 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8Zm1-11a1 1 0 0 0-2 0v3a1 1 0 0 0 2 0Zm0 5a1 1 0 1 0-2 0 1 1 0 0 0 2 0Z"/>
+    </svg>
+
+    <span class="font-medium">{{ alertaMensaje }}</span>
+
+    <button type="button" class="ml-auto text-xl leading-none hover:text-black px-2" (click)="alertaVisible = false">×</button>
+  </div>
+</div>
+<div *ngIf="mostrarConfirmarCerrar" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+  <div class="bg-white rounded-xl shadow-xl p-6 w-96 animate-fadeIn">
+    <h2 class="text-2xl font-bold text-center mb-4 text-gray-800">¿Seguro que deseas cerrar sesión?</h2>
+    <p class="text-center text-gray-600 mb-6">Se cerrará tu cuenta en este dispositivo.</p>
+
+    <div class="flex justify-around">
+      <button (click)="cerrarSesionConfirmado()" class="bg-red-600 text-white px-5 py-2 rounded-lg hover:bg-red-700 shadow">Sí, cerrar</button>
+      <button (click)="cancelarCerrar()" class="bg-gray-300 text-gray-800 px-5 py-2 rounded-lg hover:bg-gray-400 shadow">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 <header>
   <app-navbar></app-navbar>
 </header>
@@ -25,7 +47,7 @@
   <img (click)="fileInput.click()" [src]="preevistaImagen || usuario.foto || 'assets/fotoPerfilPredeterminada.png'" alt="Foto de perfil" class="w-64 h-64 md:w-56 md:h-56 my-6 object-cover cursor-pointer rounded-full" />
 
   <div class="w-full max-w-5xl px-4 md:px-0 flex justify-between items-center mt-2">
-    <button type="button" (click)="cerrarSesion()" class="bg-red-600 text-white px-6 py-2 rounded-full shadow hover:bg-red-700">
+    <button type="button" (click)="confirmarCerrarSesion()" class="bg-red-600 text-white px-6 py-2 rounded-full shadow hover:bg-red-700">
       Cerrar sesión
     </button>
     <button type="button" (click)="irPedidos()" class="bg-green-600 text-white px-6 py-2 rounded-full shadow hover:bg-green-700">
