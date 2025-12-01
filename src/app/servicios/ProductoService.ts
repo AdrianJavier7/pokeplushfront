@@ -38,6 +38,19 @@ export class ProductoService {
     return this.http.post<Producto>(`${this.apiUrl}/crear`, formData, this.comun.autorizarPeticion());
   }
 
+  editarProducto(producto:Producto, file?: File): Observable<Producto> {
+    const formData = new FormData();
+    formData.append('producto', new Blob([JSON.stringify(producto)], { type: 'application/json' }));
+    if (file) {
+      formData.append('foto', file);
+    }
+    return this.http.put<Producto>(
+      `${this.apiUrl}/${producto.id}`,
+      formData,
+      this.comun.autorizarPeticion()
+    );
+  }
+
   listarAlfabetico(): Observable<Producto[]> {
     return this.http.get<Producto[]>(`${this.apiUrl}/orden/alfabetico`);
   }
@@ -52,5 +65,21 @@ export class ProductoService {
 
   buscarPorNombre(nombre:string): Observable<Producto[]> {
     return this.http.get<Producto[]>(`${this.apiUrl}/productos/buscar?nombre=${nombre}`);
+  }
+
+  eliminarProducto(id: number){
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
+  habilitarProducto(id: number){
+    return this.http.post(`${this.apiUrl}/habilitar_producto/${id}`, {}, this.comun.autorizarPeticion());
+  }
+
+  deshabilitarProducto(id: number){
+    return this.http.post(`${this.apiUrl}/deshabilitar_producto/${id}`, {}, this.comun.autorizarPeticion());
+  }
+
+  anadirStock(id: number, cantidad: number){
+    return this.http.put<Producto>(`${this.apiUrl}/${id}/stock?cantidad=${cantidad}`,{}, this.comun.autorizarPeticion());
   }
 }

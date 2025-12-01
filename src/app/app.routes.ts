@@ -58,5 +58,9 @@ export const routes: Routes = [
     path: 'crear-producto',
     loadComponent:() => import('./crear-productos/crear-productos').then((m) => m.CrearProductos),
   },
+  {
+    path: 'editar-producto/:id',
+    loadComponent:() => import('./crear-productos/crear-productos').then((m) => m.CrearProductos),
+  },
   { path: '**', redirectTo: 'productos' },
 ];

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Navbar} from '../navbar/navbar';
 import {Footer} from '../footer/footer';
@@ -6,6 +6,7 @@ import {FormsModule} from '@angular/forms';
 import {Producto} from '../modelos/Producto';
 import {HttpClient} from '@angular/common/http';
 import {ProductoService} from '../servicios/ProductoService';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-crear-productos',
@@ -13,9 +14,9 @@ import {ProductoService} from '../servicios/ProductoService';
   templateUrl: './crear-productos.html',
   styleUrl: './crear-productos.css',
 })
-export class CrearProductos {
+export class CrearProductos implements OnInit {
   nuevoProducto: Producto = {
-    id: 0,
+    id: undefined,
     nombre: '',
     descripcion: '',
     precio: 0,
@@ -28,26 +29,51 @@ export class CrearProductos {
   };
   //Para la foto
   fotoElegida?: File;
+  editarMood = false;
 
-  constructor(private productoService:ProductoService) {}
+  constructor(private productoService:ProductoService,
+              private route: ActivatedRoute,
+              private router: Router) {}
 
   onFileSelected(event: any): void {
     this.fotoElegida = event.target.files[0];
   }
 
-  crearProducto() {
-    this.productoService.crearProducto(this.nuevoProducto, this.fotoElegida).subscribe({
-      next: (productoCreado) => {
-        console.log('Se ha creado un nuevo producto:', productoCreado);
-        alert('¡Pokemon registrado correctamente!');
+  ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.editarMood = true;
+      this.productoService.getProductoPorId(+id).subscribe(producto => {
+        this.nuevoProducto = producto;
+      });
+    }
+  }
 
-
-      },
-      error: (error) => {
-        console.log('Ha habido un error al crear producto', error);
-        alert('Parece que el pokemon ha huido :(');
-      }
-    });
+  guardarProducto() {
+    if (this.editarMood){
+      this.productoService.editarProducto(this.nuevoProducto, this.fotoElegida).subscribe({
+        next: () => {
+          alert('Producto actualizado correctamente')
+          this.router.navigate(['/productos']);
+        },
+        error: (error) => {
+          console.log("Error al guardar producto", error);
+          alert('No se pudo curar al pokemon. Parece que sigue igual.');
+        }
+      });
+    } else {
+      this.productoService.crearProducto(this.nuevoProducto, this.fotoElegida).subscribe({
+        next: () => {
+          console.log('Se ha creado un nuevo producto');
+          alert('¡Pokemon registrado correctamente!');
+          this.router.navigate(['/productos']);
+        },
+        error: (error) => {
+          console.log('Ha habido un error al crear producto', error);
+          alert('Parece que el pokemon ha huido :(');
+        }
+      });
+    }
   }
 
   resetearForm(): void {

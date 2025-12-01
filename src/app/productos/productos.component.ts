@@ -27,7 +27,7 @@ export class ProductosComponent implements OnInit {
   ngOnInit(): void {
     this.productosService.getProducto().subscribe({
       next: (data: Producto[]) => {
-        this.productos = data;
+        this.productos = data.filter(p=> p.habilitado);
         console.log('Productos recibidos:', data);
       },
       error: (err: any) => {
@@ -37,7 +37,7 @@ export class ProductosComponent implements OnInit {
   }
 
   menuVisible = false;
-  selectedOption = 'Orden Alfabético';
+  selectedOption = 'Ordenar por:';
 
   toggleDropdown() {
     this.menuVisible = !this.menuVisible;
