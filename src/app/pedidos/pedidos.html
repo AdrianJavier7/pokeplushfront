@@ -1,65 +1,111 @@
-
 <app-navbar></app-navbar>
 
-<h1 class="text-3xl md:text-5xl mb-8 text-center mt-10 estiloLetra">MIS PEDIDOS</h1>
+          <h1 class="text-2xl sm:text-3xl md:text-5xl mb-6 sm:mb-8 text-center mt-6 sm:mt-10 estiloLetra px-4">MIS PEDIDOS</h1>
 
-
-<div class="w-full p-6 bg-neutral-primary-soft border border-default rounded-base shadow-xs mx-auto">
-  <div class="flow-root">
-    <ul role="list" class="divide-y divide-default">
-
-
-      @for (pedido of pedidos; track pedido.id!) {
-        <!-- html -->
-        <li class="py-4">
-          <a
-            (click)="detallesPedido(pedido.id!)"
-            class="block w-full"
-            aria-label="Ver detalles del pedido {{ pedido.id }}"
-          >
-            <div class="flex items-center justify-between gap-4">
-
-              <div class="flex items-center gap-4">
-                <img
-                  [src]="productosPorPedido[pedido.id!] && productosPorPedido[pedido.id!][0]?.foto"
-                  [alt]="'Producto del pedido ' + pedido.id"
-                  class="w-16 h-16 rounded object-cover"
-                />
-
-                <div class="min-w-0">
-                  <p class="font-semibold text-lg text-heading truncate">
-                    Pedido #{{ pedido.id }}
-                  </p>
-                  <p class="text-base text-body truncate">
-                    Estado: {{ pedido.estado }}
-                  </p>
-                </div>
-              </div>
-
-              <div class="flex items-center gap-4">
-                <div class="text-right">
-                  <p class="text-base font-medium text-heading">Fecha: {{ pedido.creadoEn }}</p>
-                  <p class="text-base text-body">Total: ${{ totalesPorPedido[pedido.id!] }}</p>
-                </div>
-
-                <button
-                  type="button"
-                  (click)="$event.stopPropagation()"
-                  class="inline-flex items-center justify-center text-fg-danger bg-transparent border border-transparent hover:bg-neutral-secondary-medium focus:ring-4 focus:ring-neutral-tertiary font-medium rounded-base h-10 w-10"
-                >
-                  <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                       viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
-                  </svg>
-                </button>
+          <!-- Mensaje cuando no hay pedidos -->
+          @if (pedidos.length === 0) {
+            <div class="flex items-center p-3 sm:p-4 mb-4 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 mx-4 sm:mx-6" role="alert">
+              <svg class="flex-shrink-0 inline w-4 h-4 me-2 sm:me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+              </svg>
+              <span class="sr-only">Info</span>
+              <div>
+                <span class="font-medium">No tienes pedidos aún</span>
+                <span class="hidden sm:inline">Cuando realices tu primera compra, aparecerá aquí. ¡Explora nuestra tienda para encontrar productos increíbles!</span>
+                <span class="sm:hidden">¡Explora nuestra tienda!</span>
               </div>
             </div>
-          </a>
-        </li>
-      }
+          } @else {
+            <!-- Lista de pedidos  -->
+            <div class="w-full p-3 sm:p-6 bg-neutral-primary-soft border border-default rounded-base shadow-xs mx-2 sm:mx-auto max-w-7xl">
+              <div class="flow-root">
+                <ul role="list" class="divide-y divide-default">
+                  @for (pedido of pedidos; track pedido.id!) {
+                    <li class="py-3 sm:py-4">
+                      <div class="block w-full">
+                        <!-- movil -->
+                        <div class="sm:hidden">
+                          <div class="flex items-start gap-3 mb-3">
+                            <img
+                              [src]="productosPorPedido[pedido.id!] && productosPorPedido[pedido.id!][0]?.foto"
+                              [alt]="'Producto del pedido ' + pedido.id"
+                              class="w-12 h-12 rounded object-cover flex-shrink-0"
+                            />
+                            <div class="flex-1 min-w-0">
+                              <p class="font-semibold text-base text-heading truncate">
+                                Pedido #{{ pedido.id }}
+                              </p>
+                              <p class="text-sm text-body truncate">
+                                {{ pedido.estado }}
+                              </p>
+                            </div>
+                            <button
+                              type="button"
+                              (click)="confirmarCancelarPedido(pedido.id!)"
+                              class="inline-flex items-center justify-center text-fg-danger bg-transparent border border-transparent hover:bg-neutral-secondary-medium focus:ring-4 focus:ring-neutral-tertiary font-medium rounded-base h-8 w-8 flex-shrink-0"
+                            >
+                              <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
+                              </svg>
+                            </button>
+                          </div>
+                          <div class="flex justify-between items-center text-xs text-body mb-2">
+                            <span>{{ pedido.creadoEn }}</span>
+                            <span class="font-medium">${{ totalesPorPedido[pedido.id!] }}</span>
+                          </div>
+                          <button
+                            (click)="detallesPedido(pedido.id!)"
+                            class="w-full text-center text-sm text-blue-600 hover:text-blue-800 font-medium py-2"
+                          >
+                            Ver detalles
+                          </button>
+                        </div>
 
-    </ul>
-  </div>
-</div>
-
+                        <!-- escritorio -->
+                        <div class="hidden sm:block">
+                          <a
+                            (click)="detallesPedido(pedido.id!)"
+                            class="block w-full cursor-pointer"
+                            aria-label="Ver detalles del pedido {{ pedido.id }}"
+                          >
+                            <div class="flex items-center justify-between gap-4">
+                              <div class="flex items-center gap-4">
+                                <img
+                                  [src]="productosPorPedido[pedido.id!] && productosPorPedido[pedido.id!][0]?.foto"
+                                  [alt]="'Producto del pedido ' + pedido.id"
+                                  class="w-16 h-16 rounded object-cover"
+                                />
+                                <div class="min-w-0">
+                                  <p class="font-semibold text-lg text-heading truncate">
+                                    Pedido #{{ pedido.id }}
+                                  </p>
+                                  <p class="text-base text-body truncate">
+                                    Estado: {{ pedido.estado }}
+                                  </p>
+                                </div>
+                              </div>
+                              <div class="flex items-center gap-4">
+                                <div class="text-right">
+                                  <p class="text-base font-medium text-heading">Fecha: {{ pedido.creadoEn }}</p>
+                                  <p class="text-base text-body">Total: ${{ totalesPorPedido[pedido.id!] }}</p>
+                                </div>
+                                <button
+                                  type="button"
+                                  (click)="$event.stopPropagation(); confirmarCancelarPedido(pedido.id!)"
+                                  class="inline-flex items-center justify-center text-fg-danger bg-transparent border border-transparent hover:bg-neutral-secondary-medium focus:ring-4 focus:ring-neutral-tertiary font-medium rounded-base h-10 w-10"
+                                >
+                                  <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
+                                  </svg>
+                                </button>
+                              </div>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                    </li>
+                  }
+                </ul>
+              </div>
+            </div>
+          }

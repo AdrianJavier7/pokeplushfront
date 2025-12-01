@@ -8,6 +8,8 @@ import { Footer } from '../footer/footer';
 import { opinionesService } from '../servicios/opinionesService';
 import { Opiniones } from '../modelos/Opiniones';
 import { FormsModule } from '@angular/forms';
+import {CarritoService} from '../servicios/CarritoService';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-detalles-producto',
@@ -20,7 +22,8 @@ export class DetallesProducto implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private productoService: ProductoService,
-    private opinionesService: opinionesService
+    private opinionesService: opinionesService,
+    private carritoService: CarritoService,
   ) {}
 
   // -------------- OPINIONES --------------
@@ -76,6 +79,28 @@ export class DetallesProducto implements OnInit {
   setRating(numero: number) {
     this.selectedRating = numero;
     this.formModel.opinion = numero;
+  }
+
+  agregarAlCarrito(idProducto: number){
+    this.carritoService.anyadirProductoCarrito(idProducto).subscribe({
+      next: (data) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Producto añadido al carrito',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      },
+      error: (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al añadir el producto al carrito',
+          text: error.message || 'Ha ocurrido un error inesperado',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#dc2626'
+        })
+      }
+    });
   }
 
   //Aca esta el metodo para crear la reseña (para hacer una nueva)

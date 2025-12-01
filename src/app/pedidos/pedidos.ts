@@ -5,6 +5,7 @@ import {CarritoService} from '../servicios/CarritoService';
 import {ProductoService} from '../servicios/ProductoService';
 import {Producto} from '../modelos/Producto';
 import {Router, RouterLink} from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-pedidos',
@@ -79,8 +80,53 @@ export class Pedidos implements OnInit {
         });
 
       },
-      error: err => console.error('Error al obtener pedidos:', err),
+      error: err => Swal.fire({
+        icon: 'error',
+        title: 'Error al cargar los pedidos',
+        text: err.message || 'Ha ocurrido un error inesperado',
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#dc2626'
+      }),
       complete: () => console.log('Carga de pedidos completada')
+    });
+  }
+
+  cancelarPedido(idPedido: number) {
+    this.carritoService.cancelarPedido(idPedido).subscribe({
+      next: () => {
+        Swal.fire({
+          icon: 'success',
+          title: '¡Pedido cancelado!',
+          text: 'El pedido ha sido cancelado exitosamente.',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#16a34a'
+        });
+        this.obtenerPedidos();
+      },
+      error: err => Swal.fire({
+        icon: 'error',
+        title: 'Error al cancelar el pedido',
+        text: err.message || 'Ha ocurrido un error inesperado',
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#dc2626'
+      })
+    });
+  }
+
+  confirmarCancelarPedido(idPedido: number) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción no se puede deshacer.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, cancelar pedido',
+      cancelButtonText: 'No, mantener pedido',
+      confirmButtonColor: '#dc2626',
+      cancelButtonColor: '#6b7280'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.cancelarPedido(idPedido);
+      }
     });
   }
 

@@ -8,6 +8,7 @@ import {ItemCarrito} from '../modelos/ItemCarrito';
 import {Item} from '../modelos/Item';
 import {Navbar} from '../navbar/navbar';
 import {Footer} from '../footer/footer';
+import Swal from 'sweetalert2';
 import {DecimalPipe} from '@angular/common';
 
 @Component({
@@ -65,7 +66,13 @@ export class CarritoComponent implements OnInit {
         }
       },
       error: (err) => {
-        console.error('Error al obtener carrito:', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al cargar el carrito',
+          text: err.message || 'Ha ocurrido un error inesperado',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#dc2626'
+        });
       },
       complete: () => {
         console.log('Carga de carrito completada');
@@ -88,8 +95,14 @@ export class CarritoComponent implements OnInit {
   finalizarCompra() {
     this.carritoService.finalizarCarrito().subscribe({
       next: (data) => {
-        console.log('Compra finalizada:', data);
-        // Aquí podrías redirigir al usuario o mostrar un mensaje de éxito
+        Swal.fire({
+          icon: 'success',
+          title: '¡Compra finalizada!',
+          text: 'Gracias por su compra.',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#16a34a'
+        });
+        this.ngOnInit(); // Recargar el carrito después de finalizar la compra
       },
       error: (err) => {
         console.error('Error al finalizar compra:', err);
@@ -100,11 +113,16 @@ export class CarritoComponent implements OnInit {
   anyadirProducto(idProducto: number) {
       this.carritoService.anyadirProductoCarrito(idProducto).subscribe({
         next: (data) => {
-          console.log('Producto añadido:', data);
           this.ngOnInit(); // Recargar el carrito después de añadir el producto
         },
         error: (err) => {
-          console.error('Error al añadir producto:', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al añadir producto',
+            text: err.message || 'Ha ocurrido un error inesperado',
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#dc2626'
+          })
         }
       })
   }
@@ -127,13 +145,67 @@ export class CarritoComponent implements OnInit {
       this.carritoService.quitarItem(this.item).subscribe({
         next: (data) => {
           console.log('Item eliminado:', data);
-          this.ngOnInit(); // Recargar el carrito después de eliminar el item
+          this.ngOnInit();
         },
         error: (err) => {
-          console.error('Error al eliminar item:', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al eliminar el producto',
+            text: err.message || 'Ha ocurrido un error inesperado',
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#dc2626'
+          });
         }
       });
     }
+  }
+
+  confirmarQuitarItem(idProducto: number) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Se eliminará el producto del carrito',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#dc2626',
+      cancelButtonColor: '#6b7280'
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        this.quitarItem(idProducto);
+        Swal.fire({
+          title: '¡Eliminado!',
+          text: 'El producto ha sido eliminado del carrito',
+          icon: 'success',
+          timer: 2000,
+          showConfirmButton: false
+        });
+      }
+    });
+  }
+
+  confirmarCompra() {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Se procederá a finalizar la compra',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, comprar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#dc2626',
+      cancelButtonColor: '#6b7280'
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        this.finalizarCompra();
+        Swal.fire({
+          title: '¡Comprado!',
+          text: '¡Gracias Por su compra!',
+          icon: 'success',
+          timer: 2000,
+          showConfirmButton: false
+        });
+      }
+    });
   }
 
 }
