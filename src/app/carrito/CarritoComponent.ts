@@ -11,6 +11,7 @@ import {Footer} from '../footer/footer';
 // Importar SweetAlert2 que sirve para mostrar alertas bonitas
 import Swal from 'sweetalert2';
 import {DecimalPipe} from '@angular/common';
+import {ComunService} from '../servicios/comun.service';
 
 @Component({
   selector: 'app-carrito',
@@ -35,10 +36,13 @@ export class CarritoComponent implements OnInit {
 
   // Constructor con los servicios necesarios
   constructor(private carritoService: CarritoService,
-              private productoService: ProductoService) {}
+              private productoService: ProductoService,
+              private comunService: ComunService,) {}
 
   // AL cargar la página, obtenemos el carrito y los productos asociados
   ngOnInit() {
+    console.log(this.comunService.getUsuarioAutorizado());
+
     this.carritoService.getCarrito().subscribe({
       next: (data) => {
         this.carrito = data;
