@@ -29,7 +29,7 @@ export class DetallesPedido implements OnInit {
 
   ngOnInit() {
 
-    // 1. Obtener el idPedido desde state o desde la URL
+    // Obtener el idPedido desde state o desde la URL
     this.idPedido = history.state?.idPedido ?? null;
 
     if (!this.idPedido) {

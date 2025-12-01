@@ -1,4 +1,4 @@
-// src/app/carrito/CarritoComponent.ts
+
 import { Component, OnInit } from '@angular/core';
 import { CarritoService } from '../servicios/CarritoService';
 import { ProductoService } from '../servicios/ProductoService';
@@ -8,6 +8,7 @@ import {ItemCarrito} from '../modelos/ItemCarrito';
 import {Item} from '../modelos/Item';
 import {Navbar} from '../navbar/navbar';
 import {Footer} from '../footer/footer';
+// Importar SweetAlert2 que sirve para mostrar alertas bonitas
 import Swal from 'sweetalert2';
 import {DecimalPipe} from '@angular/common';
 
@@ -23,14 +24,18 @@ import {DecimalPipe} from '@angular/common';
 })
 export class CarritoComponent implements OnInit {
 
+  // Definimos las variables necesarias
   private carrito: Carrito | null = null;
   private listaIdProductos: number[] = [];
   productosEnCarrito: Producto[] = [];
   itemsEnCarrito: ItemCarrito[] = [];
   item : Item | null = null;
 
-  constructor(private carritoService: CarritoService, private productoService: ProductoService) {}
+  // Constructor con los servicios necesarios
+  constructor(private carritoService: CarritoService,
+              private productoService: ProductoService) {}
 
+  // AL cargar la página, obtenemos el carrito y los productos asociados
   ngOnInit() {
     this.carritoService.getCarrito().subscribe({
       next: (data) => {
@@ -80,18 +85,20 @@ export class CarritoComponent implements OnInit {
     });
   }
 
-
+  // Metdo para obtener la cantidad de cada producto haciendo un filtro
   obtenerCantidadProducto(idProducto: number): number {
     const item = this.itemsEnCarrito.find(i => i.idProducto === idProducto);
     return item?.cantidad ?? 0;
   }
 
+  // funcion para obtener el precio total por la cantidad de un producto
   obtenerPrecioTotalPorCantidadProducto(idProducto: number): number {
     const producto = this.productosEnCarrito.find(p => p.id === idProducto);
     const cantidad = this.obtenerCantidadProducto(idProducto);
     return producto ? producto.precio! * cantidad : 0;
   }
 
+  // Metodo para finalizar la compra
   finalizarCompra() {
     this.carritoService.finalizarCarrito().subscribe({
       next: (data) => {
@@ -110,6 +117,7 @@ export class CarritoComponent implements OnInit {
     });
   }
 
+  // Sumar un producto al carrito
   anyadirProducto(idProducto: number) {
       this.carritoService.anyadirProductoCarrito(idProducto).subscribe({
         next: (data) => {
@@ -127,6 +135,7 @@ export class CarritoComponent implements OnInit {
       })
   }
 
+  // Funcion para hacer la cuenta total
   calcularTotal(): number {
     let total = 0;
     for (const producto of this.productosEnCarrito) {
@@ -136,6 +145,7 @@ export class CarritoComponent implements OnInit {
     return total;
   }
 
+  // metodo para eliminar un item del carrito
   quitarItem(idProducto: number) {
 
 
@@ -160,6 +170,7 @@ export class CarritoComponent implements OnInit {
     }
   }
 
+  // Confirmaciones para el usuario con Swal antes de eliminar o comprar
   confirmarQuitarItem(idProducto: number) {
     Swal.fire({
       title: '¿Estás seguro?',
