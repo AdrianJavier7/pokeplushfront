@@ -30,6 +30,8 @@ export class CarritoComponent implements OnInit {
   productosEnCarrito: Producto[] = [];
   itemsEnCarrito: ItemCarrito[] = [];
   item : Item | null = null;
+  vistaActual: 'carta' | 'lista' = 'carta';
+  window = window;
 
   // Constructor con los servicios necesarios
   constructor(private carritoService: CarritoService,
@@ -117,6 +119,10 @@ export class CarritoComponent implements OnInit {
     });
   }
 
+  cambiarVista(tipo: 'carta' | 'lista') {
+    this.vistaActual = tipo;
+  }
+
   // Sumar un producto al carrito
   anyadirProducto(idProducto: number) {
       this.carritoService.anyadirProductoCarrito(idProducto).subscribe({
@@ -156,6 +162,7 @@ export class CarritoComponent implements OnInit {
         next: (data) => {
           console.log('Item eliminado:', data);
           this.ngOnInit();
+          this.window.location.reload();
         },
         error: (err) => {
           Swal.fire({
