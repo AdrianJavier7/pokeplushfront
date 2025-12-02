@@ -136,7 +136,8 @@ export class CarritoComponent implements OnInit {
           confirmButtonText: 'Aceptar',
           confirmButtonColor: '#16a34a'
         });
-        this.ngOnInit(); // Recargar el carrito después de finalizar la compra
+        this.ngOnInit();
+        this.window.location.reload();
       },
       error: (err) => {
         console.error('Error al finalizar compra:', err);
