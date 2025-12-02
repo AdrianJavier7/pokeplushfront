@@ -29,19 +29,21 @@
 </section>
 
 <main class="w-full mb-10">
+  @for (pedido of pedidos; track pedido.id!) {
   <div class="w-full border border-gray-300 p-6 flex items-center justify-between bg-white">
     <div class="flex items-center space-x-4">
       <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
            class="w-12 h-12" alt="">
       <div>
-        <p class="font-bold">ID del pedido: {{  }}</p>
-        <p class="text-sm">Fecha: {{  }}</p>
+        <p class="font-bold">ID del pedido: {{ pedido.id }}</p>
+        <p class="text-sm">Fecha: {{ pedido.creadoEn }}</p>
       </div>
     </div>
     <div class="text-right text-sm">
-      <p><strong>Total:</strong>{{  }}</p>
+      <p><strong>Total: {{totalesPorPedido[pedido.id!]}}</strong>€</p>
     </div>
   </div>
+  }
 </main>
 
 <app-footer></app-footer>

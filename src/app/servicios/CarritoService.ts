@@ -28,6 +28,11 @@ export class CarritoService {
     return this.http.get<Carrito[]>('http://localhost:8080/carrito/pedidos', options);
   }
 
+  obtenerTodosPedidos(): Observable<Carrito[]> {
+    const options = this.comun.autorizarPeticion();
+    return this.http.get<Carrito[]>('http://localhost:8080/carrito/verPedidos', options);
+  }
+
   finalizarCarrito(): Observable<Carrito> {
     const options = this.comun.autorizarPeticion();
     return this.http.post<any>('http://localhost:8080/carrito/procesando', {}, options);
