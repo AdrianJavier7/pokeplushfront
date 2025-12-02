@@ -18,6 +18,7 @@ import {NgIf} from '@angular/common';
 export class Navbar implements OnInit, OnDestroy {
   isAuthenticated = false;
   usuario?: Usuario;
+  isAdmin = false;
   private subs = new Subscription();
 
   constructor(private loginService: LoginService, private perfilService: PerfilService, private router: Router) {}
@@ -26,6 +27,7 @@ export class Navbar implements OnInit, OnDestroy {
     this.subs.add(
       this.perfilService.usuario$.subscribe(u => {
         this.usuario = u;
+        this.isAdmin = u?.nivel === 'ADMIN';
       })
     );
 

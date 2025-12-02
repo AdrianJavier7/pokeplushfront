@@ -100,6 +100,7 @@
                 <a routerLink="/" class="block py-2 hover:underline">Inicio</a>
                 <a routerLink="/pokedex" class="block py-2 hover:underline">Pokedex</a>
                 <a routerLink="/carrito" class="block py-2 hover:underline">Carrito</a>
+                <a *ngIf="isAdmin" routerLink="/administracion" class="block py-2 hover:underline">Administración</a>
 
                 <ng-container *ngIf="!isAuthenticated">
                   <a routerLink="/inicio-sesion"
@@ -129,6 +130,7 @@
           <a routerLink="/" class="hover:underline">Inicio</a>
           <a routerLink="/productos" class="hover:underline">Pokedex</a>
           <a routerLink="/carrito" class="hover:underline">Carrito</a>
+          <a *ngIf="isAdmin" routerLink="/administracion" class="hover:underline">Administración</a>
 
           <ng-container *ngIf="!isAuthenticated">
             <a routerLink="/inicio-sesion"

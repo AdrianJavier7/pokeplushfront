@@ -53,4 +53,8 @@ export class CarritoService {
     return this.http.post<any>('http://localhost:8080/carrito/cancelar/' + id, {}, options);
   }
 
+  eliminarPedido(id: number): Observable<any> {
+    const options = this.comun.autorizarPeticion();
+    return this.http.delete<any>('http://localhost:8080/carrito/eliminarPedidos/' + id, options);
+  }
 }

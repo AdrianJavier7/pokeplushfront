@@ -1,4 +1,5 @@
 import { Direccion } from './Direccion';
+import { Nivel } from './Nivel';
 
 export class Usuario {
   email?: string;
@@ -8,4 +9,5 @@ export class Usuario {
   telefono?: string;
   direccion?: Direccion;
   foto?: string;
+  nivel?: Nivel;
 }

@@ -7,12 +7,15 @@ import {CarritoService} from '../servicios/CarritoService';
 import {ProductoService} from '../servicios/ProductoService';
 import {Router} from '@angular/router';
 import Swal from 'sweetalert2';
+import {NgForOf} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-administracion',
   imports: [
     Navbar,
-    Footer
+    Footer,
+    FormsModule
   ],
   templateUrl: './administracion.component.html',
   styleUrl: './administracion.component.css'
@@ -22,11 +25,22 @@ export class AdministracionComponent implements OnInit {
   pedidos: Carrito[] = [];
   productosPorPedido: { [idCarrito: number]: Producto[] } = {};
   totalesPorPedido: { [idCarrito: number]: number } = {};
+  terminoBusqueda: string = '';
 
   constructor(private carritoService: CarritoService, private productoService: ProductoService, private router: Router) {}
 
   ngOnInit() {
     this.obtenerPedidos();
+  }
+
+  get pedidosFiltrados(): Carrito[] {
+    if (!this.terminoBusqueda.trim()) {
+      return this.pedidos;
+    }
+
+    return this.pedidos.filter(pedido =>
+      pedido.id?.toString().includes(this.terminoBusqueda.trim())
+    );
   }
 
   obtenerPedidos() {
@@ -88,47 +102,43 @@ export class AdministracionComponent implements OnInit {
     });
   }
 
-  cancelarPedido(idPedido: number) {
-    this.carritoService.cancelarPedido(idPedido).subscribe({
-      next: () => {
-        Swal.fire({
-          icon: 'success',
-          title: '¡Pedido cancelado!',
-          text: 'El pedido ha sido cancelado exitosamente.',
-          confirmButtonText: 'Aceptar',
-          confirmButtonColor: '#16a34a'
-        });
-        this.obtenerPedidos();
-      },
-      error: err => Swal.fire({
-        icon: 'error',
-        title: 'Error al cancelar el pedido',
-        text: err.message || 'Ha ocurrido un error inesperado',
-        confirmButtonText: 'Aceptar',
-        confirmButtonColor: '#dc2626'
-      })
-    });
-  }
-
-  confirmarCancelarPedido(idPedido: number) {
+  eliminarPedido(idPedido: number): void {
     Swal.fire({
       title: '¿Estás seguro?',
-      text: 'Esta acción no se puede deshacer.',
+      text: 'Esta acción eliminará el pedido permanentemente.',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Sí, cancelar pedido',
-      cancelButtonText: 'No, mantener pedido',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
       confirmButtonColor: '#dc2626',
       cancelButtonColor: '#6b7280'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.cancelarPedido(idPedido);
+        this.carritoService.eliminarPedido(idPedido).subscribe({
+          next: () => {
+            Swal.fire({
+              icon: 'success',
+              title: '¡Pedido eliminado!',
+              text: 'El pedido ha sido eliminado exitosamente.',
+              confirmButtonText: 'Aceptar',
+              confirmButtonColor: '#16a34a'
+            });
+            this.obtenerPedidos();
+          },
+          error: err => Swal.fire({
+            icon: 'error',
+            title: 'Error al eliminar el pedido',
+            text: err.message || 'Ha ocurrido un error inesperado',
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#dc2626'
+          })
+        });
       }
     });
   }
 
-  detallesPedido(idPedido: number) {
-    this.router.navigate(['/detalles-pedido'], { state: { idPedido } });
+  pedidoExpandido: number | null = null;
+  toggleDetalles(pedidoId: number): void {
+    this.pedidoExpandido = this.pedidoExpandido === pedidoId ? null : pedidoId;
   }
-
 }
