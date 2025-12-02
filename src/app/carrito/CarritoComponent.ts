@@ -10,14 +10,15 @@ import {Navbar} from '../navbar/navbar';
 import {Footer} from '../footer/footer';
 // Importar SweetAlert2 que sirve para mostrar alertas bonitas
 import Swal from 'sweetalert2';
-import {DecimalPipe} from '@angular/common';
 import {ComunService} from '../servicios/comun.service';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-carrito',
   imports: [
     Navbar,
     Footer,
+    FormsModule,
 
   ],
   templateUrl: './carrito.html',
@@ -30,14 +31,34 @@ export class CarritoComponent implements OnInit {
   private listaIdProductos: number[] = [];
   productosEnCarrito: Producto[] = [];
   itemsEnCarrito: ItemCarrito[] = [];
-  item : Item | null = null;
+  item: Item | null = null;
   vistaActual: 'carta' | 'lista' = 'carta';
   window = window;
+  mostrarModalPago: boolean = false;
+  pasoActual: number = 1; // 1: Datos, 2: Meodo pago, 3: Procesando
+  pagoEnProceso: boolean = false;
+  datosFacturacion = {
+    nombre: '',
+    apellidos: '',
+    email: '',
+    telefono: '',
+    direccion: '',
+    ciudad: '',
+    codigoPostal: '',
+    pais: 'España'
+  };
+  datosTarjeta = {
+    numero: '',
+    titular: '',
+    expiracion: '',
+    cvv: ''
+  };
 
   // Constructor con los servicios necesarios
   constructor(private carritoService: CarritoService,
               private productoService: ProductoService,
-              private comunService: ComunService,) {}
+              private comunService: ComunService) {
+  }
 
   // AL cargar la página, obtenemos el carrito y los productos asociados
   ngOnInit() {
@@ -129,20 +150,20 @@ export class CarritoComponent implements OnInit {
 
   // Sumar un producto al carrito
   anyadirProducto(idProducto: number) {
-      this.carritoService.anyadirProductoCarrito(idProducto).subscribe({
-        next: (data) => {
-          this.ngOnInit(); // Recargar el carrito después de añadir el producto
-        },
-        error: (err) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error al añadir producto',
-            text: err.message || 'Ha ocurrido un error inesperado',
-            confirmButtonText: 'Aceptar',
-            confirmButtonColor: '#dc2626'
-          })
-        }
-      })
+    this.carritoService.anyadirProductoCarrito(idProducto).subscribe({
+      next: (data) => {
+        this.ngOnInit(); // Recargar el carrito después de añadir el producto
+      },
+      error: (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al añadir producto',
+          text: err.message || 'Ha ocurrido un error inesperado',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#dc2626'
+        });
+      }
+    });
   }
 
   // Funcion para hacer la cuenta total
@@ -206,28 +227,68 @@ export class CarritoComponent implements OnInit {
     });
   }
 
+
   confirmarCompra() {
-    Swal.fire({
-      title: '¿Estás seguro?',
-      text: 'Se procederá a finalizar la compra',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, comprar',
-      cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#dc2626',
-      cancelButtonColor: '#6b7280'
-    }).then((result: any) => {
-      if (result.isConfirmed) {
+    this.mostrarModalPago = true;
+    this.pasoActual = 1;
+  }
+
+  siguientePaso() {
+    if (this.pasoActual < 3) {
+      this.pasoActual++;
+    }
+  }
+
+  pasoAnterior() {
+    if (this.pasoActual > 1) {
+      this.pasoActual--;
+    }
+  }
+
+  procesarPago(metodoPago: string) {
+    this.pasoActual = 3;
+    this.pagoEnProceso = true;
+
+    setTimeout(() => {
+      this.pagoEnProceso = false;
+      this.mostrarModalPago = false;
+      this.pasoActual = 1;
+
+      Swal.fire({
+        title: '¡Pago procesado con éxito!',
+        text: `Pago realizado con ${metodoPago}. Gracias por su compra.`,
+        icon: 'success',
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#16a34a'
+      }).then(() => {
         this.finalizarCompra();
-        Swal.fire({
-          title: '¡Comprado!',
-          text: '¡Gracias Por su compra!',
-          icon: 'success',
-          timer: 2000,
-          showConfirmButton: false
-        });
-      }
-    });
+      });
+    }, 3000);
+  }
+
+  cerrarModalPago() {
+    this.mostrarModalPago = false;
+    this.pasoActual = 1;
+    this.limpiarDatos();
+  }
+
+  limpiarDatos() {
+    this.datosFacturacion = {
+      nombre: '',
+      apellidos: '',
+      email: '',
+      telefono: '',
+      direccion: '',
+      ciudad: '',
+      codigoPostal: '',
+      pais: 'España'
+    };
+    this.datosTarjeta = {
+      numero: '',
+      titular: '',
+      expiracion: '',
+      cvv: ''
+    };
   }
 
 }
