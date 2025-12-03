@@ -62,7 +62,7 @@
               <h2 class="text-white font-bold text-lg">{{producto.nombre}}</h2>
               <p class="text-red-400 text-sm">Tipo/s: {{producto.tipo}} {{producto.tipo2}}</p>
               <p class="text-white mt-2 font-concert">{{producto.precio}} €</p>
-              <p class="text-yellow-300 text-sm">⭐ 4.5</p>
+              <p class="text-yellow-300 text-sm">⭐ {{obtenerMediaPorProducto(producto.id!)}}</p>
             </div>
           </div>
         </div>
