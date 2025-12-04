@@ -51,14 +51,12 @@ export class ProductosComponent implements OnInit {
 
 
   calcularMedias() {
-    console.log("hola soy el metodo de calcular medias");
     // For para calcular la media de todos los productos
     for(let producto of this.productos) {
 
       this.opinionService.getByProducto(producto.id!).subscribe({
         next: (data: Opiniones[]) => {
           this.opiniones = data;
-          console.log("Opiniones: " + data);
           if (this.opiniones.length > 0) {
             // Sumas de opiniones
             const sumaCalificaciones = this.opiniones.reduce((sum, opi) => sum + (opi.opinion ?? 0), 0);
@@ -71,7 +69,6 @@ export class ProductosComponent implements OnInit {
 
             // A la lista
             this.mediasProducto.push(mediaProductoAMostrar);
-            console.log("HOla"+this.mediasProducto);
 
           } else {
             const mediaProductoAMostrar: OpinionesMostrar = {idProducto: producto.id!, media: 0};
@@ -107,7 +104,19 @@ export class ProductosComponent implements OnInit {
       case 'Precio: Mayor a menor':
         this.productosService.listarPrecioDesc().subscribe(data => this.productos = data);
         break;
+
+      case 'Mejor valorados':
+        this.ordenarPorMediaDesc();
+        break;
     }
+  }
+
+  ordenarPorMediaDesc() {
+    this.productos.sort((a, b) => {
+      const mediaA = this.obtenerMediaPorProducto(a.id!) ?? 0;
+      const mediaB = this.obtenerMediaPorProducto(b.id!) ?? 0;
+      return mediaB - mediaA;
+    });
   }
 
   busqueda: string = '';
