@@ -1,11 +1,10 @@
 <!-- detalles-producto.html -->
-
 <header>
   <app-navbar></app-navbar>
 </header>
 
 <!-- DETALLE DEL PRODUCTO -->
-<div *ngIf="producto" class="max-w-4xl mx-auto bg-white p-6 flex flex-col md:flex-row gap-6 text-sm leading-relaxed tracking-tight">
+<div *ngIf="producto" class="font-pixel max-w-4xl mx-auto bg-white p-6 flex flex-col md:flex-row gap-6 text-sm leading-relaxed tracking-tight">
 
   <div class="flex-shrink-0">
     <img [src]="producto.foto" [alt]="producto.nombre" class="w-80 h-auto rounded-lg"/>
@@ -138,8 +137,9 @@
 
   <div *ngFor="let r of opiniones" class="p-6 rounded-3xl flex justify-between items-start shadow-inner mb-4">
     <div class="text-left">
-      <p class="font-bold text-lg mb-1">{{ r.nombreUsuario }}</p>
+      <p class="font-bold text-lg mb-1">Usuario</p>
       <p class="text-gray-800 mb-2">{{ r.comentario }}</p>
+      <small class="text-gray-500">ID opinión: {{ r.id }}</small>
     </div>
 
     <!-- estrellas visuales -->
@@ -149,21 +149,11 @@
   </span>
     </div>
 
+
     <!-- acciones -->
     <div class="flex flex-col gap-2">
-      <button
-        *ngIf="saberIgual(r.idUsuario)"
-        class="px-3 py-1 border rounded bg-white hover:bg-gray-100"
-        (click)="editReview(r)">Editar
-      </button>
-
-      <button
-        *ngIf="r.idUsuario === usuarioId || nivel === 'ADMIN'"
-        class="px-3 py-1 border rounded bg-red-500 text-white hover:bg-red-600"
-        (click)="deleteReview(r.id)">
-        Eliminar
-      </button>
-
+      <button class="px-3 py-1 border rounded bg-white hover:bg-gray-100" (click)="editReview(r)">Editar</button>
+      <button class="px-3 py-1 border rounded bg-red-500 text-white hover:bg-red-600" (click)="deleteReview(r.id)">Eliminar</button>
     </div>
   </div>
 </div>

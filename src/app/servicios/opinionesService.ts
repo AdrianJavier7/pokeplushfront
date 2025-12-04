@@ -45,7 +45,8 @@ export class opinionesService {
 
   //Para obtener opiniones por producto agarrando su ID
   getByProducto(productoId: number): Observable<Opiniones[]> {
-    return this.http.get<Opiniones[]>(`${this.apiUrl}/producto/${productoId}`);
+    const options = this.comun.autorizarPeticion();
+    return this.http.get<Opiniones[]>(`${this.apiUrl}/producto/${productoId}`, options);
   }
 
 }

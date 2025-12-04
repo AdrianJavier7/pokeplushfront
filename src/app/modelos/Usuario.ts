@@ -2,7 +2,6 @@ import { Direccion } from './Direccion';
 import { Nivel } from './Nivel';
 
 export class Usuario {
-  id?: number;
   email?: string;
   nombre?: string;
   apellidos?: string;
