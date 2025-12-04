@@ -9,5 +9,4 @@ export class Producto {
   stock?: number;
   habilitado?: boolean;
   idUsuario?: number;
-  avgRating?: number;
 }
