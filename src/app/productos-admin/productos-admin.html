@@ -27,9 +27,10 @@
     <div class="bg-gray-700 rounded-lg p-4 mb-4">
       <div class="bg-gray-900 rounded-lg p4 mb-4">
         <div class="flex items-center gap-2 mb-4">
-          <input type="text"
+          <input [(ngModel)]="busqueda"
                  placeholder="Buscar pokémon..."
                  class="w-full bg-[#1e1e1e] text-gray-300 placeholder-gray-400 rounded-full pl-10 py-2 text-sm focus:outline focus:ring-2 focus:ring-green-400 m-2">
+          <button (click)="buscar()" class="busq mr-2">Buscar</button>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           <div class="bg-[#0c1c3c] rounded-lg p-4 shadow-md border border-transparent transition-all duration-300 hover:bg-[#1a2e5c] hover:border-gray-300 hover:shadow-xl cursor-pointer m-3 flex items-center justify-center"

@@ -5,6 +5,7 @@ import {ProductoService} from '../servicios/ProductoService';
 import {RouterLink} from '@angular/router';
 import {Navbar} from '../navbar/navbar';
 import {Footer} from '../footer/footer';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-productos',
@@ -13,6 +14,7 @@ import {Footer} from '../footer/footer';
     CommonModule,
     Navbar,
     Footer,
+    FormsModule,
   ],
 
   templateUrl: './productos-admin.html'
@@ -86,5 +88,11 @@ export class ProductosAdmin implements OnInit {
       },
       error: (err) => console.error("Error al actualizar stock", err)
     });
+  }
+
+  busqueda: string = '';
+
+  buscar(){
+    this.productosService.buscarPorNombre(this.busqueda).subscribe(data => {this.productos = data});
   }
 }

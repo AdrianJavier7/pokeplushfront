@@ -64,7 +64,7 @@ export class ProductoService {
   }
 
   buscarPorNombre(nombre:string): Observable<Producto[]> {
-    return this.http.get<Producto[]>(`${this.apiUrl}/productos/buscar?nombre=${nombre}`);
+    return this.http.get<Producto[]>(`${this.apiUrl}/buscar?nombre=${nombre}`);
   }
 
   eliminarProducto(id: number){
