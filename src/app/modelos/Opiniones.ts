@@ -3,4 +3,7 @@ export class Opiniones {
   productoId?: number;
   opinion?: number;
   comentario?: string;
+  idUsuario?: number;
+  nombreUsuario?: string;
+  nivel?: string;
 }
