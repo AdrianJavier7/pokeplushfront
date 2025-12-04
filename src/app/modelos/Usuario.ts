@@ -10,4 +10,5 @@ export class Usuario {
   direccion?: Direccion;
   foto?: string;
   nivel?: Nivel;
+  id?: number;
 }
