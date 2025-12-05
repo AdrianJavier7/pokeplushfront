@@ -64,7 +64,7 @@
 
 
 </head>
-<body class="bg-white">
+<body class="font-pixel bg-white">
 
 <header>
   <!-- Añadí `relative` para que el .mobile-menu se posicione respecto al nav -->
@@ -129,6 +129,7 @@
         <div class="hidden md:flex items-center space-x-6 text-white text-base font-semibold">
           <a routerLink="/" class="hover:underline">Inicio</a>
           <a routerLink="/productos" class="hover:underline">Pokedex</a>
+          <a *ngIf="isAdmin" routerLink="/productos-admin" class="hover:underline">Pokedex-admin</a>
           <a routerLink="/carrito" class="hover:underline">Carrito</a>
           <a *ngIf="isAdmin" routerLink="/administracion" class="hover:underline">Administración</a>
 
