@@ -89,7 +89,6 @@ export class DetallesProducto implements OnInit {
     this.opinionesService.getByProducto(productoId).subscribe({  //subscribe es para manejar la respuesta asincronica
       next: (list: Opiniones[]) => {
         this.opiniones = list;
-        console.log(this.opiniones);
         this.cargando = false;
       }
     });

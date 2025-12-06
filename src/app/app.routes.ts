@@ -54,14 +54,17 @@ export const routes: Routes = [
   {
     path: 'productos-admin',
     loadComponent: () => import('./productos-admin/productos-admin').then((m) => m.ProductosAdmin),
+    canActivate: [adminGuard]
   },
   {
     path: 'crear-producto',
     loadComponent:() => import('./crear-productos/crear-productos').then((m) => m.CrearProductos),
+    canActivate: [adminGuard]
   },
   {
     path: 'editar-producto/:id',
     loadComponent:() => import('./crear-productos/crear-productos').then((m) => m.CrearProductos),
+    canActivate: [adminGuard]
   },
   {
     path: 'administracion',
