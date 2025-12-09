@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {Login} from '../modelos/Login';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {LoginService} from '../servicios/login.service';
 import {RegistroService} from '../servicios/registro.service';
 import {NgClass, NgIf} from '@angular/common';
@@ -12,7 +12,8 @@ import {NgClass, NgIf} from '@angular/common';
     ReactiveFormsModule,
     NgIf,
     NgClass,
-    FormsModule
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './inicio-sesion.component.html',
   styleUrl: './inicio-sesion.component.css'

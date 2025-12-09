@@ -2,7 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import {Registro} from '../modelos/Registro';
 import {RegistroService} from '../servicios/registro.service';
 import {FormsModule, NgForm} from '@angular/forms';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {NgClass, NgIf} from '@angular/common';
 
 @Component({
@@ -10,7 +10,8 @@ import {NgClass, NgIf} from '@angular/common';
   imports: [
     FormsModule,
     NgIf,
-    NgClass
+    NgClass,
+    RouterLink
   ],
   templateUrl: './registro.component.html',
   styleUrl: './registro.component.css'

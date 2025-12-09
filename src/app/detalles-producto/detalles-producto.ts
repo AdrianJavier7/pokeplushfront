@@ -137,6 +137,10 @@ export class DetallesProducto implements OnInit {
       return;
     }
 
+    if(!this.formModel.nombreUsuario){
+      this.errorMensaje = 'El nombre de usuario no puede estar vacío, ve a tu perfil para configurarlo.';
+    }
+
     const nuevaOpinion: Opiniones = {
       productoId: this.formModel.productoId,
       opinion: this.selectedRating,

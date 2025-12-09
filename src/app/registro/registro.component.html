@@ -53,6 +53,7 @@
               <input id="remember-alternative" name="acceptPolicies" type="checkbox" class="w-4 h-4 border border-gray-300 rounded-xs" [(ngModel)]="aceptaTerminos" aria-label="Acepto las políticas"/>
               <p class="ms-2 text-sm font-medium text-heading select-none">Acepto las políticas y condiciones</p>
             </label>
+            <a routerLink="/inicio-sesion" class="ml-auto text-black underline text-sm mt-2 inline-block font-semibold">¿Ya tienes cuenta?</a>
           </div>
           <button *ngIf="!cargando" type="submit" class="w-full bg-[#386ABB] text-white py-2 rounded-md font-medium hover:opacity-90">Registrarse</button>
           <button *ngIf="cargando" type="button" class="w-full bg-[#386ABB] text-white py-2 rounded-md font-medium inline-flex items-center justify-center cursor-not-allowed" disabled>
