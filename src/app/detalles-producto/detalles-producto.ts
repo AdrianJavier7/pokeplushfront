@@ -49,7 +49,7 @@ export class DetallesProducto implements OnInit {
   };
 
   //Este es el rating de las sparks
-  selectedRating = 5;
+  selectedRating = 0;
 
   //------------------------------------------
 
